@@ -59,6 +59,7 @@ class Location:
         # self.loc_item = loc_item
         self.brief_desc = brief_desc
         self.long_desc = long_desc
+        self.visit = False
 
     def available_actions(self):
         """
@@ -127,6 +128,57 @@ class Player:
         self.y = y
         self.inventory = []
         self.victory = False
+        self.score = 0
+
+    def helper_output(self, location: Location) -> str:
+        """
+        This helper function helps go_direction where return long description if the location
+        is not visited and brief description otherwise.
+        """
+        if Location.visit is False:  # first time to this location
+            return location.long_desc
+        else:
+            Location.visit = True
+            return location.brief_desc
+
+    def go_direction(self, direction: str, map_data: list[list[int]], locations: list[Location],) -> str:
+        """
+        The action Go.
+        If Go[direction] is called, go_direction(direction, map_data, locations) will be excuted
+        """
+        x = self.x
+        y = self.y
+        if direction == "north":
+            if x - 1 < len(map_data) and x - 1 >= 0 and map_data[x - 1][y] != -1:
+                # check if the x after changed will be outofbound and the location exist.
+                self.x -= 1
+                return self.helper_output(self, locations[map_data[self.x][self.y]])
+        elif direction == "south":
+            if x + 1 < len(map_data) and x + 1 >= 0 and map_data[x + 1][y] != -1:
+                # check if the x after changed will be outofbound and the location exist.
+                self.x += 1
+                return self.helper_output(self, locations[map_data[self.x][self.y]])
+        elif direction == "east":
+            if y - 1 >= 0 and y - 1 < len(map_data[0]) and map_data[x][y - 1] != -1:
+                # check if the y after changed will be outofbound and the location exist.
+                self.y -= 1
+                return self.helper_output(self, locations[map_data[self.x][self.y]])
+        elif direction == "west":
+            if y + 1 >= 0 and y + 1 < len(map_data[0]) and map_data[x][y + 1] != -1:
+                # check if the y after changed will be outofbound and the location exist.
+                self.y += 1
+                return self.helper_output(self, locations[map_data[self.x][self.y]])
+        elif direction != "west" and direction != "east" and direction != "south" and direction != "north":
+            return "INVALID INPUT"
+        else:
+            return "How about we explore the area ahead of us later?"
+
+    def player_look(self, map_data: list[list[int]], locations: list[Location],) -> str:
+        """
+        This is return when the Look action is taken.
+        It returns the long_description of the player's current location.
+        """
+        return locations[map_data[self.x][self.y]].long_desc
 
 
 class World:
@@ -188,7 +240,7 @@ class World:
 
         return self.map
 
-    # TODO: Add methods for loading location data and item data (see note above).
+    # TODO: DONE: UNCHECKED Add methods for loading location data and item data (see note above).
     def load_location(self, locations_data: TextIO) -> list[Optional[Location]]:
         """
         Store location from open file locations.data as the location attribute of this object
@@ -268,3 +320,8 @@ class World:
         else:
             # Return the location
             return Location(self.map[x][y])
+
+
+
+
+
