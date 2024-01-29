@@ -31,7 +31,7 @@ class Location:
         - # TODO
     """
 
-    def __init__(self, position_x: int, position_y: int,) -> None:
+    def __init__(self, name: str, loc_number: int, loc_item: Item, brief_desc: str, long_desc: str) -> None:
         """Initialize a new location.
 
         # TODO Add more details here about the initialization if needed
@@ -54,8 +54,11 @@ class Location:
         # All locations in your game MUST be represented as an instance of this class.
 
         # TODO: Complete this method
-        self.position_x = position_x
-        self.position_y = position_y
+        self.name = name
+        self.loc_number = loc_number
+        # self.loc_item = loc_item
+        self.brief_desc = brief_desc
+        self.long_desc = long_desc
 
     def available_actions(self):
         """
@@ -188,30 +191,53 @@ class World:
     # TODO: Add methods for loading location data and item data (see note above).
     def load_location(self, locations_data: TextIO) -> list[Optional[Location]]:
         """
-        Store the location
+        Store location from open file locations.data as the location attribute of this object
+
+        If locations_data is a file containing the following text:
+
+        LOCATION Robarts Library
+        3
+        You are outside the Robarts library.
+        You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+        END
+
+        load_location should assign this World object's lcoation to store in the class location in the following format
+        self.name = 'LOCATION Robarts Library'
+        self.loc_number = 3
+        self.brief_desc = 'You are outside the Robarts library.'
+        self.long_desc = 'You are outside the Robarts library ...'
+        it will start to store next location when END is found
+
+        Return this list representation of the location.
         """
-        # self.locations = []
-        # lines = locations_data.readlines()
-        # i = 0
-        # while i < len(lines):
-        #     if lines[i].startswith("LOCATION"):
-        #         number = int(lines[i].split()[1])
-        #         points = int(lines[i + 1])
-        #         brief_desc = lines[i + 2].strip()
-        #         long_desc = ""
-        #         j = i + 3
-        #         while j < len(lines) and not lines[j].startswith("END"):
-        #             long_desc += lines[j]
-        #             j += 1
-        #         self.locations.append(Location(number, points, brief_desc, long_desc))
-        #         i = j + 1
-        #     else:
-        #         i += 1
-        # return self.locations
+        self.locations = []
+        lines = locations_data.readlines()
+        i = 0
+        while i < len(lines):
+            if lines[i].startswith("LOCATION"):
+                self.name = lines[i].strip()
+                self.loc_number = int(lines[i + 1])
+                self.brief_desc = lines[i + 2].strip()
+                self.long_desc = ""
+                j = i + 3
+                while j < len(lines) and not lines[j].startswith("END"):
+                    self.long_desc += lines[j]
+                    j += 1
+                self.locations.append(Location(self.name, self.loc_number, self.brief_desc, self.long_desc))
+                i = 0
+            else:
+                i += 1
+        return self.locations
 
     def load_items(self, items_data: TextIO) -> list[Optional[Item]]:
         """
-        Store the items
+        Store items from open file items_data as the item attribute of this object, as a nested list of integers like so:
+
+        If item_data is a file containing the following text:
+            1 10 5 Cheat Sheet
+        then item under self where it can be names since it is store in an item
+
+        Return this list of items
         """
         self.items = []
         # create a new items list to store data
