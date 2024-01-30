@@ -22,6 +22,20 @@ from typing import Optional, TextIO
 import class_item
 
 
+def quit_game():
+    """ Game Over
+
+    """
+    print("Game Over")
+    exit()
+
+
+def move_tracker():
+    command = input("Which direction do you want to go: ")
+    if command in ["north", "south", "west", "east"]:
+        Player.move_increment()
+
+
 class Player:
     """
     A Player in the text advanture game.
@@ -36,7 +50,7 @@ class Player:
         - # TODO
     """
 
-    def __init__(self, x: int, y: int) -> None:
+    def __init__(self, x: int, y: int, move_limit: int) -> None:
         """
         Initializes a new Player at position (x, y).
         """
@@ -49,6 +63,8 @@ class Player:
         self.y = y
         self.inventory = []
         self.victory = False
+        self.move_limit = move_limit
+        self.current_move = 0
 
     def pick_up_item(self, item: class_item.Item):
         """ Allow players to pick up items if they are at the item's location.
@@ -89,3 +105,9 @@ class Player:
             inventory_list = [item.name for item in self.inventory]
 
         return inventory_list
+
+    def move_increment(self):
+        self.current_move += 1
+        if self.current_move >= self.move_limit:
+            quit_game()
+
