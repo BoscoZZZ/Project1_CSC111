@@ -32,7 +32,7 @@ def quit_game():
 
 def move_tracker():
     command = input("Which direction do you want to go: ")
-    if command in ["north", "south", "west", "east"]:
+    if command.lower() in ["north", "south", "west", "east"]:
         Player.move_increment()
 
 
@@ -45,6 +45,9 @@ class Player:
         - y: The player's y coordinates
         - inventory: The player's inventory
         - victory: A boolean whether showing whether the player had won or not.
+        - move_limit: The maximum number of moves players can take
+        - current_move: Keep track of the number of moves players have
+        - score: Player's score
 
     Representation Invariants:
         - # TODO
@@ -65,6 +68,7 @@ class Player:
         self.victory = False
         self.move_limit = move_limit
         self.current_move = 0
+        self.score = 0
 
     def pick_up_item(self, item: class_item.Item):
         """ Allow players to pick up items if they are at the item's location.
@@ -110,4 +114,16 @@ class Player:
         self.current_move += 1
         if self.current_move >= self.move_limit:
             quit_game()
+
+    def score_increment(self, points: int):
+        """ Update the player's score by a given amount.
+
+        """
+        self.score += points
+
+    def score(self):
+        """ Showing player's current score
+
+        """
+        return f"Your current score is {self.score}"
 
