@@ -60,6 +60,7 @@ class Location:
         self.loc_item = loc_item
         self.brief_desc = brief_desc
         self.long_desc = long_desc
+        self.visited_or_not = False
 
     def available_actions(self):
         """
@@ -73,3 +74,16 @@ class Location:
         # function header (e.g. add in parameters, complete the type contract) as needed
 
         # TODO: Complete this method, if you'd like or remove/replace it if you're not using it
+
+    def get_full_description(self):
+        """ Return the full description of the location upon first visit
+
+        """
+        return f"LOCATION {self.loc_number}\n\n{self.long_desc}"
+
+    def get_brief_description(self):
+        """ Return a brief description of the location if not player's first visit
+
+        """
+        return f"LOCATION {self.loc_number}\n\n{self.brief_desc}"
+        
