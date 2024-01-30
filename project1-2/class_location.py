@@ -60,7 +60,7 @@ class Location:
         self.loc_item = loc_item
         self.brief_desc = brief_desc
         self.long_desc = long_desc
-        self.visited_or_not = False
+        self.visited = False
 
     def available_actions(self):
         """
