@@ -19,15 +19,16 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 
 # Note: You may add in other import statements here as needed
-from game_data import World, Item, Location, Player
+import class_item, class_location, class_player, class_World
 
 # Note: You may add helper functions, classes, etc. here as needed
 
 # Note: You may modify the code below as needed; the following starter template are just suggestions
 if __name__ == "__main__":
-    w = World(open("map.txt"), open("locations.txt"), open("items.txt"))
-    p = Player(0, 0)  # set starting location of player; you may change the x, y coordinates here as appropriate
-
+    w = class_World.World(open("map.txt"), open("locations.txt"), open("items.txt"))
+    p = class_player.Player(0, 0) # set starting location of player; you may change the x, y coordinates here as 
+    # appropriate
+    
     menu = ["look", "inventory", "score", "quit", "back"]
 
     while not p.victory:
