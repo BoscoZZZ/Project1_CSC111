@@ -162,3 +162,15 @@ class World:
         else:
             # Return the location
             return class_location.Location(self.map[x][y])
+
+    def first_visit_or_not(self, x: int, y: int):
+        location = self.get_location(x, y)
+        if location is not None:
+            if location.visited:
+                return location.get_brief_description()
+            else:
+                location.visited = True
+                return location.get_brief_description()
+        else:
+            return "Invalid move"
+         
