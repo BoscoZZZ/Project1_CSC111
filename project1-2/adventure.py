@@ -19,7 +19,8 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 
 # Note: You may add in other import statements here as needed
-import class_player, class_World
+import class_player
+import class_World
 
 # Note: You may add helper functions, classes, etc. here as needed
 
@@ -28,6 +29,9 @@ if __name__ == "__main__":
     w = class_World.World(open("map.txt"), open("locations.txt"), open("items.txt"))
     p = class_player.Player(0, 0, 30)  # set starting location of player; you may change the x, y coordinates here as
     # appropriate
+
+    world_map = w.load_map(open("map.txt"))
+    adv_location = w.load_location(open("locations.txt"))
 
     menu = ["look", "inventory", "score", "quit", "back"]
 
@@ -40,8 +44,9 @@ if __name__ == "__main__":
 
         print("What to do? \n")
         print("[menu]")
-        for action in location.available_actions():
-            print(action)
+        # if location is not None:
+        #     for action in location.available_actions():
+        #         print(action)
         choice = input("\nEnter action: ")
 
         if choice == "[menu]":
@@ -49,7 +54,7 @@ if __name__ == "__main__":
             for option in menu:
                 print(option)
             choice = input("\nChoose action: ")
-            class_location.menu_actions(choice)
+            p.menu_actions(choice)
 
         # TODO: CALL A FUNCTION HERE TO HANDLE WHAT HAPPENS UPON THE PLAYER'S CHOICE
         #  REMEMBER: the location = w.get_location(p.x, p.y) at the top of this loop will update the location if
