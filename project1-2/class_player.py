@@ -20,6 +20,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 from typing import Optional, TextIO
 import class_item
+import class_location
 
 
 def quit_game():
@@ -36,9 +37,21 @@ def move_tracker():
         Player.move_increment()
 
 
+def helper_output(location: class_location.Location) -> str:
+    """
+    This helper function helps go_direction where return long description if the location
+    is not visited and brief description otherwise.
+    """
+    if location.visited is False:  # first time to this location
+        return location.long_desc
+    else:
+        location.visited = True
+        return location.brief_desc
+
+
 class Player:
     """
-    A Player in the text advanture game.
+    A Player in the text adventure game.
 
     Instance Attributes:
         - x: The player's x coordinates
@@ -69,6 +82,45 @@ class Player:
         self.move_limit = move_limit
         self.current_move = 0
         self.score = 0
+
+    def go_direction(self, direction: str, map_data: list[list[int]], locations: list[class_location.Location], ) -> str:
+        """
+        The action Go.
+        If Go[direction] is called, go_direction(direction, map_data, locations) will be excuted
+        """
+        x = self.x
+        y = self.y
+        if direction == "north":
+            if len(map_data) > x - 1 >= 0 and map_data[x - 1][y] != -1:
+                # check if the x after changed will be out of bound and the location exist.
+                self.x -= 1
+                return helper_output(locations[map_data[self.x][self.y]])
+        elif direction == "south":
+            if len(map_data) > x + 1 >= 0 and map_data[x + 1][y] != -1:
+                # check if the x after changed will be out of bound and the location exist.
+                self.x += 1
+                return helper_output(locations[map_data[self.x][self.y]])
+        elif direction == "east":
+            if 0 <= y - 1 < len(map_data[0]) and map_data[x][y - 1] != -1:
+                # check if the y after changed will be out of bound and the location exist.
+                self.y -= 1
+                return helper_output(locations[map_data[self.x][self.y]])
+        elif direction == "west":
+            if 0 <= y + 1 < len(map_data[0]) and map_data[x][y + 1] != -1:
+                # check if the y after changed will be out of bound and the location exist.
+                self.y += 1
+                return helper_output(locations[map_data[self.x][self.y]])
+        elif direction != "west" and direction != "east" and direction != "south" and direction != "north":
+            return "INVALID INPUT"
+        else:
+            return "How about we explore the area ahead of us later?"
+
+    def player_look(self, map_data: list[list[int]], locations: list[class_location.Location], ) -> str:
+        """
+        This is return when the Look action is taken.
+        It returns the long_description of the player's current location.
+        """
+        return locations[map_data[self.x][self.y]].long_desc
 
     def pick_up_item(self, item: class_item.Item):
         """ Allow players to pick up items if they are at the item's location.
@@ -126,4 +178,3 @@ class Player:
 
         """
         return f"Your current score is {self.score}"
-
