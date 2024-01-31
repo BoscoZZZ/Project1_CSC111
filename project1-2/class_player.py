@@ -20,14 +20,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 import class_item
 import class_location
-
-
-def quit_game():
-    """ Game Over
-
-    """
-    print("Game Over")
-    exit()
+import adventure
 
 
 def move_tracker():
@@ -124,6 +117,13 @@ class Player:
         """
         return locations[map_data[self.x][self.y]].long_desc
 
+    def quit_game(self):
+        """ Game Over
+
+        """
+        print("Game Over")
+        exit()
+
     def pick_up_item(self, item: class_item.Item):
         """ Allow players to pick up items if they are at the item's location.
 
@@ -153,7 +153,7 @@ class Player:
         else:
             return f"{item.name} is not in your inventory."
 
-    def inventory(self):
+    def get_inventory(self):
         """ Allow players to get items
 
         """
@@ -170,7 +170,7 @@ class Player:
         """
         self.current_move += 1
         if self.current_move >= self.move_limit:
-            quit_game()
+            self.quit_game()
 
     def score_increment(self, points: int):
         """ Update the player's score by a given amount.
@@ -178,8 +178,25 @@ class Player:
         """
         self.score += points
 
-    def score(self):
+    def get_score(self):
         """ Showing player's current score
 
         """
         return f"Your current score is {self.score}"
+
+    def menu_actions(self, action: str):
+        """
+        Execute menu action as given.
+
+        """
+        menu = ["look", "inventory", "score", "quit", "back"]
+        user_input = action
+        while user_input in menu:
+            if user_input == "look":
+                return self.player_look(adventure.world_map, adventure.adv_location)
+            elif user_input == "inventory":
+                return self.get_inventory()
+            elif user_input == "score":
+                return self.get_score()
+            elif user_input == "quit":
+                return self.quit_game()
