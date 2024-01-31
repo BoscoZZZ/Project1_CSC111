@@ -178,3 +178,6 @@ class Player:
 
         """
         return f"Your current score is {self.score}"
+
+        """
+        return f"Your current score is {self.score}"
