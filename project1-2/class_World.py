@@ -55,6 +55,8 @@ class World:
         self.map = self.load_map(map_data)
         self.location_data = self.load_location(location_data)
         self.items_data = self.load_items(items_data)
+        self.locations = []
+        self.items = []
 
         # NOTE: You may choose how to store location and item data; create your own World methods to handle these
         # accordingly. The only requirements:
@@ -109,16 +111,18 @@ class World:
         i = 0
         while i < len(lines):
             if lines[i].startswith("LOCATION"):
-                self.name = lines[i].strip()
-                self.loc_number = int(lines[i + 1])
-                self.brief_desc = lines[i + 2].strip()
-                self.long_desc = ""
+                name = lines[i].strip()
+                loc_number = int(lines[i + 1])
+                brief_desc = lines[i + 2].strip()
+                long_desc = ""
                 j = i + 3
                 while j < len(lines) and not lines[j].startswith("END"):
-                    self.long_desc += lines[j]
+                    long_desc += lines[j]
                     j += 1
-                self.locations.append(class_location.Location(self.name, self.loc_number, self.brief_desc, self.long_desc))
-                i = 0
+                location = class_location.Location(name, loc_number, None , brief_desc,
+                                                   long_desc)  # Assuming None for loc_item
+                self.locations.append(location)
+                i = j  # Move to the line after "END"
             else:
                 i += 1
         return self.locations
@@ -138,7 +142,7 @@ class World:
         for line in items_data:
             # traversing the text file and store base on every line
             fields = line.split()
-            item = class_item.Item(fields[3], int(fields[0]), int(fields[1]), int(fields[2]))
+            item = class_item.Item(fields[3], int(fields[0]), int(fields[1]), int(fields[2]), int(fields[2]), True)
             # fields[3] represent the last variable which is name, this will be store in self.name
             # the rest are similar as above fields[3]
             self.items.append(item)
@@ -160,8 +164,13 @@ class World:
             # This is the case where the number is -1 on the map
             return None
         else:
-            # Return the location
-            return class_location.Location(self.map[x][y])
+            # # Return the location
+            # return class_location.Location(self.map[x][y])
+            location_index = self.map[x][y]
+            if 0 <= location_index < len(self.locations):
+                return self.locations[location_index]
+            else:
+                return None
 
     def first_visit_or_not(self, x: int, y: int):
         location = self.get_location(x, y)
@@ -173,4 +182,3 @@ class World:
                 return location.get_brief_description()
         else:
             return "Invalid move"
-         
