@@ -18,7 +18,7 @@ please consult our Course Syllabus.
 
 This file is Copyright (c) 2024 CSC111 Teaching Team
 """
-from typing import Optional, TextIO
+# from typing import Optional, TextIO
 import class_item
 
 
@@ -86,4 +86,3 @@ class Location:
 
         """
         return f"LOCATION {self.loc_number}\n\n{self.brief_desc}"
-        
