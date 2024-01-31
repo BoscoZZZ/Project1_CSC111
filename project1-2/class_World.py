@@ -106,6 +106,7 @@ class World:
 
         Return this list representation of the location.
         """
+        item_instance = class_item.Item("", -2, -2, -2, -2)
         self.locations = []
         lines = locations_data.readlines()
         i = 0
@@ -119,7 +120,7 @@ class World:
                 while j < len(lines) and not lines[j].startswith("END"):
                     long_desc += lines[j]
                     j += 1
-                location = class_location.Location(name, loc_number, None , brief_desc,
+                location = class_location.Location(name, loc_number, item_instance, brief_desc,
                                                    long_desc)  # Assuming None for loc_item
                 self.locations.append(location)
                 i = j  # Move to the line after "END"
@@ -129,7 +130,8 @@ class World:
 
     def load_items(self, items_data: TextIO) -> list[Optional[class_item.Item]]:
         """
-        Store items from open file items_data as the item attribute of this object, as a nested list of integers like so:
+        Store items from open file items_data as the item attribute of this object,
+        as a nested list of integers like so:
 
         If item_data is a file containing the following text:
             1 10 5 Cheat Sheet
@@ -142,7 +144,7 @@ class World:
         for line in items_data:
             # traversing the text file and store base on every line
             fields = line.split()
-            item = class_item.Item(fields[3], int(fields[0]), int(fields[1]), int(fields[2]), int(fields[2]), True)
+            item = class_item.Item(fields[3], int(fields[0]), int(fields[1]), int(fields[2]), int(fields[2]))
             # fields[3] represent the last variable which is name, this will be store in self.name
             # the rest are similar as above fields[3]
             self.items.append(item)
@@ -173,6 +175,9 @@ class World:
                 return None
 
     def first_visit_or_not(self, x: int, y: int):
+        """
+        1
+        """
         location = self.get_location(x, y)
         if location is not None:
             if location.visited:
