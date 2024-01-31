@@ -18,10 +18,6 @@ please consult our Course Syllabus.
 
 This file is Copyright (c) 2024 CSC111 Teaching Team
 """
-from typing import Optional, TextIO
-import class_location
-import class_World
-import class_player
 
 
 class Item:
@@ -40,7 +36,7 @@ class Item:
         - target_points >= 0
     """
 
-    def __init__(self, name: str, start: int, target: int, target_points: int, curr: int, pick_up_state: bool) -> None:
+    def __init__(self, name: str, start: int, target: int, target_points: int, curr: int,) -> None:
         """Initialize a new item.
         """
 
@@ -60,4 +56,3 @@ class Item:
         self.current_position = curr
         # determine if this item can be picked up
         self.pick_up_state = True
-
