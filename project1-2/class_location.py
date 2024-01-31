@@ -22,23 +22,6 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 import class_item
 
 
-def menu_actions(action: str):
-    """ Execute menu action as given.
-
-    """
-    menu = ["look", "inventory", "score", "quit", "back"]
-    user_input = ""
-    while user_input in menu:
-        if user_input == "look":
-            class_player.Player.player_look()
-        elif user_input == "inventory":
-            class_player.Player.inventory()
-        elif user_input == "score":
-            class_player.Player.score()
-        elif user_input == "quit":
-            class_player.quit_game()
-
-
 class Location:
     """A location in our text adventure game world.
 
@@ -91,9 +74,6 @@ class Location:
         # function header (e.g. add in parameters, complete the type contract) as needed
 
         # TODO: Complete this method, if you'd like or remove/replace it if you're not using it
-        
-        actions = ["North", "South", "West", "East", "Drop"]
-        return actions
 
     def get_full_description(self):
         """ Return the full description of the location upon first visit
