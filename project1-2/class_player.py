@@ -18,7 +18,6 @@ please consult our Course Syllabus.
 
 This file is Copyright (c) 2024 CSC111 Teaching Team
 """
-from typing import Optional, TextIO
 import class_item
 import class_location
 
@@ -32,6 +31,9 @@ def quit_game():
 
 
 def move_tracker():
+    """
+    2
+    """
     command = input("Which direction do you want to go: ")
     if command.lower() in ["north", "south", "west", "east"]:
         Player.move_increment()
@@ -83,7 +85,7 @@ class Player:
         self.current_move = 0
         self.score = 0
 
-    def go_direction(self, direction: str, map_data: list[list[int]], locations: list[class_location.Location], ) -> str:
+    def go_direction(self, direction: str, map_data: list[list[int]], locations: list[class_location.Location],) -> str:
         """
         The action Go.
         If Go[direction] is called, go_direction(direction, map_data, locations) will be excuted
@@ -163,6 +165,9 @@ class Player:
         return inventory_list
 
     def move_increment(self):
+        """
+        2
+        """
         self.current_move += 1
         if self.current_move >= self.move_limit:
             quit_game()
@@ -175,9 +180,6 @@ class Player:
 
     def score(self):
         """ Showing player's current score
-
-        """
-        return f"Your current score is {self.score}"
 
         """
         return f"Your current score is {self.score}"
