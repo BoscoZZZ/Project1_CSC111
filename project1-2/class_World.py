@@ -87,7 +87,7 @@ class World:
     # TODO: Add methods for loading location data and item data (see note above).
     def load_location(self, locations_data: TextIO) -> list[Optional[class_location.Location]]:
         """
-        Store location from open file locations.data as the location attribute of this object
+        Store location from open file locations data as the location attribute of this object
 
         If locations_data is a file containing the following text:
 
