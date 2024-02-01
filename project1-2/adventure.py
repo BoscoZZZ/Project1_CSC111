@@ -26,14 +26,15 @@ import class_World
 
 # Note: You may modify the code below as needed; the following starter template are just suggestions
 if __name__ == "__main__":
-    w = class_World.World(open("map.txt"), open("locations.txt"), open("items.txt"))
-    p = class_player.Player(0, 0, 30)  # set starting location of player; you may change the x, y coordinates here as
-    # appropriate
 
+    w = class_World.World(open("map.txt"), open("locations.txt"), open("items.txt"))
+    p = class_player.Player(0, 0, 30)
     world_map = w.load_map(open("map.txt"))
     adv_location = w.load_location(open("locations.txt"))
 
     menu = ["look", "inventory", "score", "quit", "back"]
+    # a = p.player_look(w.load_map(open("map.txt")), w.load_location(open("locations.txt")))
+    # print(a)
 
     while not p.victory:
         location = w.get_location(p.x, p.y)
@@ -54,7 +55,12 @@ if __name__ == "__main__":
             for option in menu:
                 print(option)
             choice = input("\nChoose action: ")
-            p.menu_actions(choice)
+            if choice == "quit":
+                print("The world will be unsaved, quiting game now...")
+                print("You can exit whenever you want")
+                break
+            else:
+                p.menu_actions(choice, w.world_map, w.adv_location)
 
         # TODO: CALL A FUNCTION HERE TO HANDLE WHAT HAPPENS UPON THE PLAYER'S CHOICE
         #  REMEMBER: the location = w.get_location(p.x, p.y) at the top of this loop will update the location if
