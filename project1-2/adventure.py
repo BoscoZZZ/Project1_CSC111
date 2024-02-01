@@ -42,13 +42,20 @@ if __name__ == "__main__":
         # TODO: ENTER CODE HERE TO PRINT LOCATION DESCRIPTION
         # Depending on whether or not it's been visited before,
         # print either full description (first time visit) or brief description (every subsequent visit)
-
+        actions = []
+        location_actions = []
         print("What to do? \n")
         print("[menu]")
-        # if location is not None:
-        #     for action in location.available_actions():
-        #         print(action)
-        choice = input("\nEnter action: ")
+        print("List of actions you can perform at this location: ")
+        if location is not None:
+            for action in w.available_actions(p, w.map, location):
+                actions.append(action)
+            for location_action in location.available_actions():
+                location_actions.append(location_action)
+            print(actions)
+        choice = input("\nEnter action: ").lower()
+        if choice in ["north", "south", "west", "east"]:
+            p.go_direction(choice, w.map, w.locations)
 
         if choice == "[menu]":
             print("Menu Options: \n")
