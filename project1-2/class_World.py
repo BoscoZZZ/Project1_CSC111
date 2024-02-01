@@ -189,3 +189,37 @@ class World:
                 return location.get_brief_description()
         else:
             return "Invalid move"
+
+    def available_actions(self, player: class_player.Player, map_data: list[list[int]], locations: class_location.Location):
+        """
+        Return the available actions in this location.
+        The actions should depend on the items available in the location
+        and the x,y position of this location on the world map.
+        """
+
+        # NOTE: This is just a suggested method
+        # i.e. You may remove/modify/rename this as you like, and complete the
+        # function header (e.g. add in parameters, complete the type contract) as needed
+
+        x, y = player.x, player.y
+        actions = []
+
+        # Check if moving North is possible
+        if x > 0 and self.map[x - 1][y] != -1:
+            actions.append("North")
+
+        # Check if moving South is possible
+        if x < len(self.map) - 1 and self.map[x + 1][y] != -1:
+            actions.append("South")
+
+        # Check if moving East is possible
+        if y < len(self.map[0]) - 1 and self.map[x][y + 1] != -1:
+            actions.append("East")
+
+        # Check if moving West is possible
+        if y > 0 and self.map[x][y - 1] != -1:
+            actions.append("West")
+
+        actions.append("Drop")
+
+        return actions
