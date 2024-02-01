@@ -50,9 +50,10 @@ if __name__ == "__main__":
         if location is not None:
             for action in w.available_actions(p, w.map, location):
                 actions.append(action)
+            print("Available movements: " + " ,".join(actions))
             for location_action in location.available_actions():
                 location_actions.append(location_action)
-            print("Available actions: " + ", ".join(actions + location_actions))
+            print("Other actions: " + ", ".join(location_actions))
         choice = input("\nEnter action: ").lower()
         if choice in ["north", "south", "west", "east"]:
             p.go_direction(choice, w.map, w.locations)
