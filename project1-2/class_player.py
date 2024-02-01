@@ -85,27 +85,27 @@ class Player:
         """
         x = self.x
         y = self.y
-        if direction == "north":
+        if direction.lower() == "north":
             if len(map_data) > x - 1 >= 0 and map_data[x - 1][y] != -1:
                 # check if the x after changed will be out of bound and the location exist.
                 self.x -= 1
                 return helper_output(locations[map_data[self.x][self.y]])
-        elif direction == "south":
+        elif direction.lower() == "south":
             if len(map_data) > x + 1 >= 0 and map_data[x + 1][y] != -1:
                 # check if the x after changed will be out of bound and the location exist.
                 self.x += 1
                 return helper_output(locations[map_data[self.x][self.y]])
-        elif direction == "east":
-            if 0 <= y - 1 < len(map_data[0]) and map_data[x][y - 1] != -1:
-                # check if the y after changed will be out of bound and the location exist.
-                self.y -= 1
-                return helper_output(locations[map_data[self.x][self.y]])
-        elif direction == "west":
+        elif direction.lower() == "east":
             if 0 <= y + 1 < len(map_data[0]) and map_data[x][y + 1] != -1:
                 # check if the y after changed will be out of bound and the location exist.
                 self.y += 1
                 return helper_output(locations[map_data[self.x][self.y]])
-        elif direction != "west" and direction != "east" and direction != "south" and direction != "north":
+        elif direction.lower() == "west":
+            if 0 <= y - 1 < len(map_data[0]) and map_data[x][y - 1] != -1:
+                # check if the y after changed will be out of bound and the location exist.
+                self.y -= 1
+                return helper_output(locations[map_data[self.x][self.y]])
+        elif direction.lower() != "west" and direction.lower() != "east" and direction.lower() != "south" and direction.lower() != "north":
             return "INVALID INPUT"
         else:
             return "How about we explore the area ahead of us later?"
