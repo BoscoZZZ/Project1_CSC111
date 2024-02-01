@@ -52,7 +52,7 @@ if __name__ == "__main__":
                 actions.append(action)
             for location_action in location.available_actions():
                 location_actions.append(location_action)
-            print(actions)
+            print("Available actions: " + ", ".join(actions + location_actions))
         choice = input("\nEnter action: ").lower()
         if choice in ["north", "south", "west", "east"]:
             p.go_direction(choice, w.map, w.locations)
