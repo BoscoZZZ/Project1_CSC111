@@ -41,6 +41,8 @@ class World:
         - location_data: name of text file containing location data (format left up to you)
         - items_data: name of text file containing item data (format left up to you)
         """
+        self.world_map = self.load_map(open("map.txt"))
+        self.adv_location = self.load_location(open("locations.txt"))
 
         # NOTES:
 
