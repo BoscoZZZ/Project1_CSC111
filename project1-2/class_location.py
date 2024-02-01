@@ -86,3 +86,15 @@ class Location:
 
         """
         return f"LOCATION {self.loc_number}\n\n{self.brief_desc}"
+
+    def available_actions(self):
+        """
+        Return a list of available actions at this location.
+        """
+        actions = []
+        if self.loc_item and self.loc_item.pick_up_state:
+            actions.append(f"Pick up {self.loc_item.name}")
+
+        # Additional actions based on location-specific logic can be added here
+
+        return actions
