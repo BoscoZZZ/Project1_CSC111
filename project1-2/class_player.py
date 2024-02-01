@@ -20,7 +20,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 import class_item
 import class_location
-import adventure
+import class_World
 
 
 def move_tracker():
@@ -124,7 +124,7 @@ class Player:
         print("Game Over")
         exit()
 
-    def pick_up_item(self, item: class_item.Item):
+    def pick_up_item(self, item: class_item.Item) -> str:
         """ Allow players to pick up items if they are at the item's location.
 
         """
@@ -142,7 +142,7 @@ class Player:
             item.pick_up_state = False
             return f"You picked up {item.name} again. (What you dropped before)"
 
-    def drop_item(self, item: class_item.Item):
+    def drop_item(self, item: class_item.Item) -> str:
         """ Allow players to drop items in their inventory anytime they want.
 
         """
@@ -184,19 +184,22 @@ class Player:
         """
         return f"Your current score is {self.score}"
 
-    def menu_actions(self, action: str):
+    def menu_actions(self, action: str, world_map: list[list[int]], adv_location: list[[class_location.Location]]):
         """
         Execute menu action as given.
 
         """
         menu = ["look", "inventory", "score", "quit", "back"]
-        user_input = action
-        while user_input in menu:
-            if user_input == "look":
-                return self.player_look(adventure.world_map, adventure.adv_location)
-            elif user_input == "inventory":
-                return self.get_inventory()
-            elif user_input == "score":
-                return self.get_score()
-            elif user_input == "quit":
-                return self.quit_game()
+        while action in menu:
+            if action == "look":
+                print(self.player_look(world_map, adv_location))
+                return
+            elif action == "inventory":
+                print(self.get_inventory())
+                return
+            elif action == "score":
+                print(self.get_score())
+                return
+            # elif action == "quit":
+            #     print(self.quit_game())
+
