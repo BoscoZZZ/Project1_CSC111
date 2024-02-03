@@ -77,13 +77,30 @@ if __name__ == "__main__":
             choice = input("\nEnter action: ").lower()
             if choice in ["north", "south", "west", "east"]:
                 p.go_direction(choice, w.map, w.locations)
+
             elif choice == "pick up":
+                i = 0
                 for items in world_items:
                     if location.loc_number == items.current_position:
                         p.pick_up_item(items)
-            # elif choice == "drop item":
+                    else:
+                        i += 1
+                if i == len(world_items):
+                    print("You can pick up the air on the floor, will you?")
 
-                #     print("You can pick up the air on the floor, will you?")
+            elif choice == "drop item":
+                lst = p.menu_actions("inventory", w.world_map, w.adv_location)
+                print("You have the following items")
+                print(lst)
+                choice = input("\nDrop Which One?").lower()
+                i = 0
+                for items in world_items:
+                    if choice == items.name:
+                        p.drop_item(items, location.loc_number)
+                    else:
+                        i += 1
+                if i == len(world_items):
+                    print(choice + " is not in your inventory.")
 
             if choice == "[menu]":
                 print("Menu Options: \n")
