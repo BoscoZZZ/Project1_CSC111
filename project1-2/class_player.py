@@ -20,7 +20,6 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 import class_item
 import class_location
-import class_World
 
 
 def move_tracker():
@@ -78,7 +77,7 @@ class Player:
         self.current_move = 0
         self.score = 0
 
-    def go_direction(self, direction: str, map_data: list[list[int]], locations: list[class_location.Location],) -> str:
+    def go_direction(self, direction: str, map_data: list[list[int]], locations: list[class_location.Location],):
         """
         The action Go.
         If Go[direction] is called, go_direction(direction, map_data, locations) will be excuted
@@ -89,26 +88,35 @@ class Player:
             if x - 1 >= 0 and map_data[x - 1][y] != -1:
                 # check if the x after changed will be out of bound and the location exist.
                 self.x -= 1
-                return helper_output(locations[map_data[self.x][self.y]])
+                print(helper_output(locations[map_data[self.x][self.y]]))
+            else:
+                print("How about we explore the area ahead of us later?")
         elif direction.lower() == "south":
             if len(map_data) > x + 1 and map_data[x + 1][y] != -1:
                 # check if the x after changed will be out of bound and the location exist.
                 self.x += 1
-                return helper_output(locations[map_data[self.x][self.y]])
+                print(helper_output(locations[map_data[self.x][self.y]]))
+            else:
+                print("How about we explore the area ahead of us later?")
         elif direction.lower() == "east":
             if 0 <= y + 1 < len(map_data[0]) and map_data[x][y + 1] != -1:
                 # check if the y after changed will be out of bound and the location exist.
                 self.y += 1
-                return helper_output(locations[map_data[self.x][self.y]])
+                print(helper_output(locations[map_data[self.x][self.y]]))
+            else:
+                print("How about we explore the area ahead of us later?")
         elif direction.lower() == "west":
             if 0 <= y - 1 < len(map_data[0]) and map_data[x][y - 1] != -1:
                 # check if the y after changed will be out of bound and the location exist.
                 self.y -= 1
-                return helper_output(locations[map_data[self.x][self.y]])
-        elif direction.lower() != "west" and direction.lower() != "east" and direction.lower() != "south" and direction.lower() != "north":
-            return "INVALID INPUT"
-        else:
-            return "How about we explore the area ahead of us later?"
+                print(helper_output(locations[map_data[self.x][self.y]]))
+            else:
+                print("How about we explore the area ahead of us later?")
+        elif (direction.lower() != "west"
+              and direction.lower() != "east"
+              and direction.lower() != "south"
+              and direction.lower() != "north"):
+            print("INVALID INPUT")
 
         # x, y = self.x, self.y
         # new_x, new_y = x, y
@@ -127,7 +135,7 @@ class Player:
         #     return "Moved " + direction.lower()
         # else:
         #     return "You can't move in that direction."
-         
+
     def player_look(self, map_data: list[list[int]], locations: list[class_location.Location], ) -> str:
         """
         This is return when the Look action is taken.
@@ -142,34 +150,34 @@ class Player:
         print("Game Over")
         exit()
 
-    def pick_up_item(self, item: class_item.Item) -> str:
+    def pick_up_item(self, item: class_item.Item):
         """ Allow players to pick up items if they are at the item's location.
 
         """
-        if (self.x, self.y) == item.start_position:
+        if item.pick_up_state:
             self.inventory.append(item)
             item.current_position = None
             # Item's start position is unique, and the purpose of current location is that if the player dropped the
             # item, they will be dropped at the current location, where the player currently standing, and waiting to
             # be collect again if intended.
             item.pick_up_state = False
-            return f"Wow! you discovered a {item.name}"
-        elif (self.x, self.y) == item.current_position and item.pick_up_state:
+            print(f"Wow! you discovered a {item.name}")
+        elif not item.pick_up_state:
             self.inventory.append(item)
             item.current_position = None
             item.pick_up_state = False
-            return f"You picked up {item.name} again. (What you dropped before)"
+            print(f"You picked up {item.name} again. (What you dropped before)")
 
-    def drop_item(self, item: class_item.Item) -> str:
+    def drop_item(self, item: class_item.Item):
         """ Allow players to drop items in their inventory anytime they want.
 
         """
         if item in self.inventory:
             self.inventory.remove(item)
             item.current_position = (self.x, self.y)
-            return f"You successfully dropped {item.name} here!"
+            print(f"You successfully dropped {item.name} here!")
         else:
-            return f"{item.name} is not in your inventory."
+            print(f"{item.name} is not in your inventory.")
 
     def get_inventory(self):
         """ Allow players to get items
@@ -220,4 +228,3 @@ class Player:
                 return
             # elif action == "quit":
             #     print(self.quit_game())
-
