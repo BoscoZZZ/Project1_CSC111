@@ -21,6 +21,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 from typing import Optional, TextIO
 import class_location
 import class_item
+import class_player
 
 
 class World:
@@ -146,7 +147,7 @@ class World:
         for line in items_data:
             # traversing the text file and store base on every line
             fields = line.split()
-            item = class_item.Item(fields[3], int(fields[0]), int(fields[1]), int(fields[2]), int(fields[2]))
+            item = class_item.Item(fields[3], int(fields[0]), int(fields[1]), int(fields[2]), int(fields[0]))
             # fields[3] represent the last variable which is name, this will be store in self.name
             # the rest are similar as above fields[3]
             self.items.append(item)
@@ -190,7 +191,8 @@ class World:
         else:
             return "Invalid move"
 
-    def available_actions(self, player: class_player.Player, map_data: list[list[int]], locations: class_location.Location):
+    def available_actions(self, player: class_player.Player, map_data: list[list[int]],
+                          locations: class_location.Location):
         """
         Return the available actions in this location.
         The actions should depend on the items available in the location
