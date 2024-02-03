@@ -61,19 +61,19 @@ class Location:
         self.brief_desc = brief_desc
         self.long_desc = long_desc
         self.visited = False
-
-    def available_actions(self):
-        """
-        Return the available actions in this location.
-        The actions should depend on the items available in the location
-        and the x,y position of this location on the world map.
-        """
-
-        # NOTE: This is just a suggested method
-        # i.e. You may remove/modify/rename this as you like, and complete the
-        # function header (e.g. add in parameters, complete the type contract) as needed
-
-        # TODO: Complete this method, if you'd like or remove/replace it if you're not using it
+    #
+    # def available_actions(self):
+    #     """
+    #     Return the available actions in this location.
+    #     The actions should depend on the items available in the location
+    #     and the x,y position of this location on the world map.
+    #     """
+    #
+    #     # NOTE: This is just a suggested method
+    #     # i.e. You may remove/modify/rename this as you like, and complete the
+    #     # function header (e.g. add in parameters, complete the type contract) as needed
+    #
+    #     # TODO: Complete this method, if you'd like or remove/replace it if you're not using it
 
     def get_full_description(self):
         """ Return the full description of the location upon first visit
