@@ -168,16 +168,15 @@ class Player:
             item.pick_up_state = False
             print(f"You picked up {item.name} again. (What you dropped before)")
 
-    def drop_item(self, item: class_item.Item):
+    def drop_item(self, item: class_item.Item, loc: int):
         """ Allow players to drop items in their inventory anytime they want.
 
         """
-        if item in self.inventory:
-            self.inventory.remove(item)
-            item.current_position = (self.x, self.y)
-            print(f"You successfully dropped {item.name} here!")
-        else:
-            print(f"{item.name} is not in your inventory.")
+        self.inventory.remove(item)
+        item.current_position = loc
+        print(f"You successfully dropped {item.name} here!")
+
+        # print(f"{item.name} is not in your inventory.")
 
     def get_inventory(self):
         """ Allow players to get items
