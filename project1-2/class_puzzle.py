@@ -20,6 +20,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 import class_player
 import class_World
+import adventure
 
 
 class Puzzle:
@@ -52,7 +53,7 @@ class CombineItem(Puzzle):
         -
     """
 
-    def __init__(self, hint: str, required_material: str, combined_item: str) -> None:
+    def __init__(self, hint: str, required_material: list[str], combined_item: str) -> None:
         """ Initialize the item combination part of the puzzle
         """
         super().__init__(hint)
@@ -75,7 +76,7 @@ class CombineItem(Puzzle):
         """ Provide a hint for combining if player cannot solve
         """
         if not self.solved:
-            print("What two things in your inventory can be combined to get a key?")
+            print(self.hint)
 
 
 class OpenChest(Puzzle):
@@ -101,10 +102,7 @@ class OpenChest(Puzzle):
 
     def open_chest(self, player: class_player.Player, world: class_World.World):
         curr = world.get_location(player.x, player.y)
-        chest_location = 2   # set to random number for now, have no idea what to set
-        if curr == chest_location and self.combined_item in player.inventory:
-            # not implement for now, if player is at the chest's location, "Open chest" option can be added
-            # to the available action of players at that location
+        if curr == self.chest_location and self.combined_item in player.inventory:
             player.inventory.append(self.final_item)
             self.solved = True
         return self.solved
@@ -113,4 +111,72 @@ class OpenChest(Puzzle):
         """ Provide a hint for how to open the chest
         """
         if not self.solved:
-            print("What item in your inventory can be used to open the chest?")
+            print(self.hint)
+
+
+class MissileLaunch(Puzzle):
+    """ Another puzzle that requires players to use the missile launch pad and password to destroy
+    a place called super castle and get the things they needed to win the game.
+
+    Instance Attributes:
+        - hint: A little bit of hint of the puzzle for players who are attempting to solve it
+        -
+
+    Representation Invariants:
+        -
+
+    """
+
+    def __init__(self, hint: str, password: int, launch_pad: str, sealed_item: str, target_location: str):
+        super().__init__(hint)
+        self.password = password
+        self.launch_pad = launch_pad
+        self.sealed_item = sealed_item
+        self.target_location = target_location
+        self.solved = False
+
+    def check_password(self, player_input: str):
+        """ Check if players input the correct password
+        """
+        return player_input == self.password
+
+    def use_launch_pad(self, player: class_player.Player):
+        """ Launch the missile if players discovered the launch as well as input the correct the password
+        """
+        if self.check_password and self.launch_pad in player.inventory:
+            # destroy_location method in class world
+            player.inventory.append(self.sealed_item)
+            self.solved = True
+        return self.solved
+
+    def missile_hint(self):
+        if not self.solved:
+            print(self.hint)
+
+
+class BusinessmanTrading(Puzzle):
+    """ Part of the puzzle that players need to trade an item with a businessman to get the item they need
+    Notice that if you give the businessman something you need in order to win the game, you lose the game directly!
+    So be careful with what you choose to trade, the businessman is going to give you something you need!
+
+    Instance Attributes:
+        - hint: A little bit of hint of the puzzle for players who are attempting to solve it
+        -
+
+    Representation Invariants:
+        -
+
+    """
+
+    def __init__(self, hint: str, exchange_item: str, crucial_item: list[str]):
+        super().__init__(hint)
+        self.exchange_item = exchange_item
+        self.crucial_item = crucial_item
+
+    def trade(self, player: class_player.Player, item_to_trade):
+        if item_to_trade in self.crucial_item:
+            print("Oh, you trade this precious thing with me! You won't be able to attend your test! HAHA!")
+            player.victory = False
+        else:
+            player.inventory.remove(item_to_trade)
+            player.inventory.append(self.exchange_item)
