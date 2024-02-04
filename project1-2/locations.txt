@@ -30,3 +30,117 @@ LOCATION 4
 You are at the magic room.
 You are at the magic room that you put item here will appears on your table during the exam.
 END
+
+LOCATION 5
+5
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 6
+6
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 7
+7
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 8
+8
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 9
+9
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 10
+10
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 11
+11
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 12
+12
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 13
+13
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 14
+14
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 15
+15
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 16
+16
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 17
+17
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 18
+18
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 19
+19
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 20
+20
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 21
+21
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 22
+22
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
+
+LOCATION 23
+23
+You are outside the Robarts library.
+You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+END
