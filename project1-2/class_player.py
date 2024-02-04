@@ -144,7 +144,7 @@ class Player:
         return locations[map_data[self.x][self.y]].long_desc
 
     def quit_game(self):
-        """       
+        """
         Game Over and quit game
 
         """
@@ -152,7 +152,7 @@ class Player:
         exit()
 
     def pick_up_item(self, item: class_item.Item):
-        """ 
+        """
         Allow players to pick up items if they are at the item's location.
 
         """
@@ -171,7 +171,7 @@ class Player:
             print(f"You picked up {item.name} again. (What you dropped before)")
 
     def drop_item(self, item: class_item.Item, loc: int):
-        """ 
+        """
         Allow players to drop items in their inventory anytime they want.
 
         """
@@ -182,7 +182,7 @@ class Player:
         # print(f"{item.name} is not in your inventory.")
 
     def get_inventory(self):
-        """ 
+        """
         Allow players to get items
 
         """
@@ -203,14 +203,14 @@ class Player:
             self.quit_game()
 
     def score_increment(self, points: int):
-        """ 
+        """
         Update the player's score by a given amount.
 
         """
         self.score += points
 
     def get_score(self):
-        """ 
+        """
         Showing player's current score
 
         """
@@ -232,5 +232,21 @@ class Player:
             elif action == "score":
                 print(self.get_score())
                 return
+            # elif action == "quit":
+            #     print(self.quit_game())
+
+    def menu_actions_2(self, action: str, world_map: list[list[int]], adv_location: list[[class_location.Location]]):
+        """
+        Execute menu action as given.
+
+        """
+        menu = ["look", "inventory", "score", "quit", "back"]
+        while action in menu:
+            if action == "look":
+                return self.player_look(world_map, adv_location)
+            elif action == "inventory":
+                return self.get_inventory()
+            elif action == "score":
+                return self.get_score()
             # elif action == "quit":
             #     print(self.quit_game())
