@@ -139,7 +139,7 @@ class MissileLaunch(Puzzle):
         """
         return player_input == self.password
 
-    def use_launch_pad(self, player: class_player.Player, player_input: int, world:class_World.World):
+    def use_launch_pad(self, player: class_player.Player, player_input: int, world: class_World.World):
         """ Launch the missile if players discovered the launch as well as input the correct the password
         """
         if self.check_password(player_input) and self.launch_pad in player.inventory:
@@ -193,18 +193,19 @@ class BusinessmanTrading(Puzzle):
             self.traded_or_not = True
 
 
-def available_action(player: class_player.Player, item: CombineItem, world: class_World.World,
-                     chest: OpenChest, missile: MissileLaunch, business: BusinessmanTrading):
+def available_action(player: class_player.Player, world: class_World.World, business: BusinessmanTrading):
     """ Return a list of special available action
     """
     actions = []
-    if all(item in player.inventory for item in item.required_material):
+    if all(item in player.inventory for item in ['Stone', 'Abrasive_tool']):
         actions.append("combine")
     curr = world.get_location(player.x, player.y)
-    if curr == chest.chest_location and chest.combined_item in player.inventory:
+    if curr == 8 and 'Stone_Key' in player.inventory:
         actions.append("open_chest")
-    if missile.launch_pad in player.inventory:
-        actions.append("type_password")
-    if not business.traded_or_not and curr == business.business_location:
+    for item in player.inventory:
+        if item.name == "launch_pad":
+            print("1")
+            actions.append("type_password")
+    if not business.traded_or_not and curr == 10:
         actions.append("trade")
     return actions
