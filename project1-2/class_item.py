@@ -36,7 +36,7 @@ class Item:
         - target_points >= 0
     """
 
-    def __init__(self, name: str, start: int, target: int, target_points: int, curr: int,) -> None:
+    def __init__(self, name: str, start: int, target: int, target_points: int, curr: int, ) -> None:
         """Initialize a new item.
         """
 
@@ -55,4 +55,12 @@ class Item:
         self.target_points = target_points
         self.current_position = curr
         # determine if this item can be picked up
+
         self.pick_up_state = True
+
+
+class PuzzleItem(Item):
+    def __init__(self, name: str, start: int, target: int, target_points: int, curr: int, hint: str, puzzle_type: str):
+        super().__init__(name, start, target, target_points, curr)
+        self.hint = hint
+        self.puzzle_type = puzzle_type
