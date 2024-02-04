@@ -21,6 +21,8 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 # Note: You may add in other import statements here as needed
 import class_player
 import class_World
+import class_puzzle
+import class_item
 
 # Note: You may add helper functions, classes, etc. here as needed
 
@@ -44,6 +46,11 @@ if __name__ == "__main__":
                                                             "any hint for the password?", launch_pad="launch_pad",
                                                        password=1890169, sealed_item="Cheat_Sheet",
                                                        target_loc="Super_Castle")
+    businessman_trading_puzzle = class_puzzle.BusinessmanTrading(hint="Trade wisely, some items are "
+                                                                      "crucial for your success.", business_location=10,
+                                                                 crucial_item=["Cheat_Sheet", "T-Card", "Stone",
+                                                                               "Abrasive_tool", "Stone_Key",
+                                                                               "launch_pad"], exchange_item="Lucky_Pen")
 
     # location = w.get_location(p.x, p.y)
     # for items in world_items:
@@ -85,7 +92,7 @@ if __name__ == "__main__":
     print("Welcome to the Text Adventure Game(UofT version)")
     name = input("Please enter your name to continue: ")
     print("hi, " + name + ". You can now choose to enter the game by entering enter, "
-                                "the rules will show up immediately, enter quit to quit the game ")
+                          "the rules will show up immediately, enter quit to quit the game ")
     print("Your starting location will be  ROBARTS LIBRARY   ")
     choice = input("\nEnter action: ").lower()
     if choice == "enter":
@@ -99,6 +106,7 @@ if __name__ == "__main__":
             # print either full description (first time visit) or brief description (every subsequent visit)
             actions = []
             location_actions = []
+            special_actions = []
             print("Above is what you just done! What to do next? \n")
             print("You can choose to call [menu]")
             print("and these are the list of actions you can perform at this location: ")
@@ -109,6 +117,11 @@ if __name__ == "__main__":
                 for location_action in location.available_actions():
                     location_actions.append(location_action)
                 print("   Other actions: " + ", ".join(location_actions))
+                special_actions = class_puzzle.available_action(p, combine_item_puzzle, w, open_chest_puzzle,
+                                                                missile_launch_puzzle, businessman_trading_puzzle)
+                for special_action in special_actions:
+                    special_actions.append(special_action)
+                print("   Special actions: " + ", ".join(special_actions))
             choice = input("\nEnter action: ").lower()
             if choice in ["north", "south", "west", "east"]:
                 p.go_direction(choice, w.map, w.locations)
@@ -147,6 +160,43 @@ if __name__ == "__main__":
                     if i == len(world_items):
                         print(choice + " is not in your inventory.")
 
+            elif choice == "combine":
+                inventory = p.menu_actions("inventory", w.world_map, w.adv_location)
+                if inventory == "Your inventory is empty":
+                    print("You have nothing to combine.")
+                else:
+                    print("You have the following items: " + ", ".join(inventory))
+                    item1 = input("Choose the first item to combine: ").lower()
+                    item2 = input("Choose the second item to combine: ").lower()
+                    if combine_item_puzzle.combine_item(p):
+                        print(f"You have successfully combined to create {combine_item_puzzle.combined_item}.")
+                    else:
+                        print("These items cannot be combined.")
+
+            elif choice == "open_chest":
+                curr_location = w.get_location(p.x, p.y).loc_number
+                if open_chest_puzzle.open_chest(p, w):
+                    print(f"You have successfully opened the chest and found {open_chest_puzzle.final_item}.")
+                elif open_chest_puzzle.combined_item not in p.inventory:
+                    print("You don't have the required item to open the chest.")
+
+            elif choice == "type_password":
+                if missile_launch_puzzle.launch_pad in p.inventory:
+                    player_input = int(input("Enter the password: "))
+                    if missile_launch_puzzle.use_launch_pad(p, player_input, w):
+                        print(f"Correct password! {missile_launch_puzzle.target_loc} "
+                              f"has been destroyed by the missile you just launched, and you suddenly "
+                              f"see {missile_launch_puzzle.sealed_item} fly to your hands due to the explosion.")
+                    else:
+                        print("Incorrect password. Try again.")
+
+            elif choice == "trade":
+                curr_location = w.get_location(p.x, p.y).loc_number
+                if curr_location == businessman_trading_puzzle.business_location and not businessman_trading_puzzle.traded_or_not:
+                    print("Available items to trade: " + ", ".join(p.inventory))
+                    item_to_trade = input("Which item would you like to trade? ").lower()
+                    businessman_trading_puzzle.trade(p, item_to_trade)
+
             if choice == "[menu]":
                 print("Menu Options: \n")
                 for option in menu:
@@ -160,11 +210,11 @@ if __name__ == "__main__":
                     p.menu_actions(choice, w.world_map, w.adv_location)
 
             if p.score >= win_need_score:
-                print("You have achieve the neccesary score to have 100% on the time! Are you continuing?")
+                print("You have achieve the necessary score to have 100% on the time! Are you continuing?")
                 choice = input("\nEnter Yes or No: ").lower()
                 if choice == "yes":
                     p.victory = True
-                    print("Congradulation on Achienve 100 on the exam!")
+                    print("Congratulation on Achieve 100 on the exam!")
                 else:
                     continue
     else:
