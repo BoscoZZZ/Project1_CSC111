@@ -61,6 +61,7 @@ class Location:
         self.brief_desc = brief_desc
         self.long_desc = long_desc
         self.visited = False
+        self.is_destroyed = False
     #
     # def available_actions(self):
     #     """
@@ -94,7 +95,5 @@ class Location:
         actions = []
         if self.loc_item and self.loc_item.pick_up_state:
             actions.append(f"Pick up {self.loc_item.name}")
-
-        # Additional actions based on location-specific logic can be added here
 
         return actions
