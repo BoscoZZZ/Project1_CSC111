@@ -1,3 +1,5 @@
-1 4 10 Cheat_Sheet
+1 10 5 Cheat_Sheet
 3 4 10 Lucky_Pen
 2 4 10 T-Card
+5 10 0 launch_pad
+hint What_items_can_be_combined_together 9 0 0 Stone Combine
