@@ -143,17 +143,54 @@ class World:
         Return this list of items
         """
         self.items = []
-        # create a new items list to store data
         for line in items_data:
-            # traversing the text file and store base on every line
             fields = line.split()
-            item = class_item.Item(fields[3].lower(), int(fields[0]), int(fields[1]), int(fields[2]), int(fields[0]))
-            # fields[3] represent the last variable which is name, this will be store in self.name
-            # the rest are similar as above fields[3]
+            if fields[0] == "hint":
+                # Assuming the PuzzleItem class constructor matches these parameters
+                item = class_item.PuzzleItem(fields[5], int(fields[2]), int(fields[3]), int(fields[4]), int(fields[2]),
+                                             fields[1], fields[6])
+            else:
+                # Assuming the Item class constructor matches these parameters
+                item = class_item.Item(fields[3], int(fields[0]), int(fields[1]), int(fields[2]), int(fields[0]))
             self.items.append(item)
-            # append
-
         return self.items
+        # self.items = []
+        # # create a new items list to store data
+        # for line in items_data:
+        #     fields = line.split()
+        #     if fields[0] == "hint":
+        #         item.hint = fields[1]
+        #         item.start_position = int(fields[2])
+        #         item.target_position = int(fields[3])
+        #         item.target_points = int(fields[4])
+        #         item.name = fields[5]
+        #         item.puzzle_type = fields[6]
+        #         item = class_item.PuzzleItem(item.name, item.start_position, item.target_position, item.target_points,
+        #                                      item.start_position, item.hint, item.puzzle_type)
+        #     else:
+        #         item.name = fields[3].lower()
+        #         item.start_position = int(fields[0])
+        #         item.target_position = int(fields[1])
+        #         item.target_points = int(fields[2])
+        #         item.current_position = int(fields[0])
+        #         item = class_item.Item(item.name, item.start_position, item.target_position, item.target_points,
+        #                                item.current_position)
+        #     self.items.append(item)
+        # return self.items
+
+        #     # traversing the text file and store base on every line
+        #     fields = line.split()
+        #     item = class_item.Item(fields[3].lower(), int(fields[0]), int(fields[1]), int(fields[2]),
+        #                            int(fields[0]), '', '')
+        #     puzzle_item = class_item.Item(fields[4].lower(), int(fields[1]), int(fields[2]), int(fields[3]),
+        #                                   int(fields[1]), fields[0], fields[5])
+        #     # fields[3] represent the last variable which is name, this will be store in self.name
+        #     # the rest are similar as above fields[3]
+        #     self.items.append(item)
+        #     self.items.append(puzzle_item)
+        #     # append
+        #
+        # return self.items
 
     # NOTE: The method below is REQUIRED. Complete it exactly as specified.
     def get_location(self, x: int, y: int) -> Optional[class_location.Location]:
@@ -209,25 +246,20 @@ class World:
         # Check if moving North is possible
         if x > 0 and self.map[x - 1][y] != -1:
             actions.append("North")
-
         # Check if moving South is possible
         if x < len(self.map) - 1 and self.map[x + 1][y] != -1:
             actions.append("South")
-
         # Check if moving East is possible
         if y < len(self.map[0]) - 1 and self.map[x][y + 1] != -1:
             actions.append("East")
-
         # Check if moving West is possible
         if y > 0 and self.map[x][y - 1] != -1:
             actions.append("West")
-
         actions.append("drop item")
 
         return actions
 
-
-     def destroy_location(self, location_name: class_location.Location):
+    def destroy_location(self, location_name: class_location.Location):
         if location_name in self.locations:
             location_name.is_destroyed = True
             location_name.brief_desc = "The location has been destroyed by a missile."
