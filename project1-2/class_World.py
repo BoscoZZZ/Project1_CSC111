@@ -29,7 +29,10 @@ class World:
 
     Instance Attributes:
         - map: a nested list representation of this world's map
-        - # TODO add more instance attributes as needed; do NOT remove the map attribute
+        - location_data: a nested list of location object of the world
+        - items_data: a newsted list of item object of the world
+        - locations: initial empty world if not text read
+        - items: initial empty items if not item read
 
     Representation Invariants:
         - # TODO
@@ -192,13 +195,11 @@ class World:
         #
         # return self.items
 
-    # NOTE: The method below is REQUIRED. Complete it exactly as specified.
     def get_location(self, x: int, y: int) -> Optional[class_location.Location]:
         """Return Location object associated with the coordinates (x, y) in the world map, if a valid location exists at
          that position. Otherwise, return None. (Remember, locations represented by the number -1 on the map should
          return None.)
         """
-        # TODO: DONE: UNCHECKED Complete this method as specified. Do not modify any of this function's specifications.
         if x < 0 or y < 0 or x >= len(self.map) or y >= len(self.map[0]):
             # This is the case where one of them is out of bound
             return None
@@ -216,7 +217,8 @@ class World:
 
     def first_visit_or_not(self, x: int, y: int):
         """
-        1
+        Determine whether the location is visited or not.
+        This is a helper function for "look" action
         """
         location = self.get_location(x, y)
         if location is not None:
