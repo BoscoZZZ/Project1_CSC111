@@ -35,6 +35,16 @@ if __name__ == "__main__":
 
     menu = ["look", "inventory", "score", "quit", "back"]
 
+    combine_item_puzzle = class_puzzle.CombineItem(hint="What two items can be combined to get what you want?",
+                                                   required_material=['Stone', 'Abrasive_tool'],
+                                                   combined_item='Stone_Key')
+    open_chest_puzzle = class_puzzle.OpenChest(hint="What item can you use to open the chest?",
+                                               combined_item="Stone_Key", chest_location=8, final_item="T-card")
+    missile_launch_puzzle = class_puzzle.MissileLaunch(hint="Walk around the campus to see if you can find "
+                                                            "any hint for the password?", launch_pad="launch_pad",
+                                                       password=1890169, sealed_item="Cheat_Sheet",
+                                                       target_loc="Super_Castle")
+
     # location = w.get_location(p.x, p.y)
     # for items in world_items:
     #     if location.loc_number == items.current_position:
