@@ -51,42 +51,7 @@ if __name__ == "__main__":
                                                                                "Abrasive_tool", "Stone_Key",
                                                                                "launch_pad"], exchange_item="Lucky_Pen")
 
-    # location = w.get_location(p.x, p.y)
-    # for items in world_items:
-    #     if location.loc_number == items.current_position:
-    #                 p.pick_up_item(items)
-    # lst = p.menu_actions("inventory", w.world_map, w.adv_location)
-    # if lst == "Your inventory is empty":
-    #     i = 0
-    # else:
-    #     print("You have the above items")
-    #     choice = input("\nDrop Which One?").lower()
-    #     i = 0
-    #     for items in world_items:
-    #         if choice == items.name:
-    #             p.drop_item(items, location.loc_number)
-    #             if items.target_position == location.loc_number:
-    #                 p.score += items.target_points
-    #                 print("You successfully drop one item at the correct place \n")
-    #                 print("You have received ")
-    #                 print(items.target_points)
-    #                 print(" points")
-    #         else:
-    #             i += 1
-    #     if i == len(world_items):
-    #         print(choice + " is not in your inventory.")
 
-    # ------------------------------------------------------------------------------------------
-    # location = w.get_location(p.x, p.y)
-    # for items in world_items:
-    #     print(items.current_position)
-    #     if location.loc_number == items.current_position:
-    #         print("found")
-    #         p.pick_up_item(items)
-    # ------------------------------------------------------------------------------------------
-
-    # a = p.player_look(w.load_map(open("map.txt")), w.load_location(open("locations.txt")))
-    # print(a)
 
     print("Welcome to the Text Adventure Game(UofT version)")
     name = input("Please enter your name to continue: ")
@@ -96,6 +61,24 @@ if __name__ == "__main__":
     choice = input("\nEnter action: ").lower()
     if choice == "enter":
         print("RULES AND PROMT")
+        # ----------------------------------------------------------------------------
+        print("# ----------------------------------------------------------------------------#")
+        print("You've got an important exam coming up this evening, and you've been studying for weeks. \n"
+              "Last night was a particularly late night on campus. You had difficulty focusing, so rather\n "
+              "than staying in one place, you studied in various places throughout campus as the night progressed.\n "
+              "Unfortunately, when you woke up this morning, you were missing some important exam-related items.\n "
+              "You cannot find your T-card, and you're nervous they won't let you into tonight's exam without it.\n "
+              "Also, you seem to have misplaced your lucky exam pen -- even if they let you in, you can't possibly\n "
+              "write with another pen! Finally, your instructor for the course lets you bring a cheat sheet - \n"
+              "a handwritten page of information in the exam. Last night, you painstakingly crammed as much \n"
+              "material onto a single page as humanly possible, but that's missing, too! All of this stuff must\n "
+              "be around campus somewhere! Can you find all of it before your exam starts tonight?\n")
+        print("# ----------------------------------------------------------------------------#")
+        print("Following items are hidden in the 4 * 4 map,___________"
+              "there are ___ locations in total")
+        print("Your starting location will be  ROBARTS LIBRARY   ")
+        p.menu_actions("look", w.world_map, w.adv_location)
+        # ----------------------------------------------------------------------------
         print("Loading...")
         print("You have started the game, Good Luck!")
         while not p.victory:
