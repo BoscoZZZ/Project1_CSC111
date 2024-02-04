@@ -20,7 +20,6 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 import class_player
 import class_World
-import adventure
 
 
 class Puzzle:
@@ -156,12 +155,11 @@ class MissileLaunch(Puzzle):
 
 class BusinessmanTrading(Puzzle):
     """ Part of the puzzle that players need to trade an item with a businessman to get the item they need
-    Notice that if you give the businessman something you need in order to win the game, you lose the game directly!
-    So be careful with what you choose to trade, the businessman is going to give you something you need!
 
     Instance Attributes:
         - hint: A little bit of hint of the puzzle for players who are attempting to solve it
-        -
+        - exchange_item: item that players exchange with the businessman
+        - crucial_item: a list of special items that if players trade them will result in losing the game directly
 
     Representation Invariants:
         -
@@ -172,11 +170,36 @@ class BusinessmanTrading(Puzzle):
         super().__init__(hint)
         self.exchange_item = exchange_item
         self.crucial_item = crucial_item
+        self.traded_or_not = False
 
     def trade(self, player: class_player.Player, item_to_trade):
+        """ Notice that if you give the businessman something you need in order to win the game, you lose the game directly!
+        So be careful with what you choose to trade, the businessman is going to give you something you need!
+        Notice that you can only trade with him once, once you trade with him successfully, and you go back to the same
+        location, you won't be able to trade with him again! However, if you didn't trade with him upon first visit, you
+        can still trade with him later.
+
+        """
+        if self.traded_or_not:
+            print("You already trade with me comrade! I have nothing left to give you.")
         if item_to_trade in self.crucial_item:
             print("Oh, you trade this precious thing with me! You won't be able to attend your test! HAHA!")
             player.victory = False
         else:
             player.inventory.remove(item_to_trade)
             player.inventory.append(self.exchange_item)
+            self.traded_or_not = True
+
+
+def available_action(player: class_player.Player, item: CombineItem, world: class_World.World, chest: OpenChest, missile: MissileLaunch):
+    """ Return a list of special available action
+    """
+    actions = []
+    if all(item in player.inventory for item in item.required_material):
+        actions.append("Combine")
+    curr = world.get_location(player.x, player.y)
+    if curr == chest.chest_location and chest.combined_item in player.inventory:
+        actions.append("Open Chest")
+    if missile.launch_pad in player.inventory:
+        actions.append("Type Password")
+    return actions
