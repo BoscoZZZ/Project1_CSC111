@@ -26,7 +26,7 @@ import class_World
 
 # Note: You may modify the code below as needed; the following starter template are just suggestions
 if __name__ == "__main__":
-
+    win_need_score = 20
     w = class_World.World(open("map.txt"), open("locations.txt"), open("items.txt"))
     p = class_player.Player(0, 0, 30)
     world_map = w.load_map(open("map.txt"))
@@ -34,6 +34,31 @@ if __name__ == "__main__":
     world_items = w.load_items(open("items.txt"))
 
     menu = ["look", "inventory", "score", "quit", "back"]
+
+    # location = w.get_location(p.x, p.y)
+    # for items in world_items:
+    #     if location.loc_number == items.current_position:
+    #                 p.pick_up_item(items)
+    # lst = p.menu_actions("inventory", w.world_map, w.adv_location)
+    # if lst == "Your inventory is empty":
+    #     i = 0
+    # else:
+    #     print("You have the above items")
+    #     choice = input("\nDrop Which One?").lower()
+    #     i = 0
+    #     for items in world_items:
+    #         if choice == items.name:
+    #             p.drop_item(items, location.loc_number)
+    #             if items.target_position == location.loc_number:
+    #                 p.score += items.target_points
+    #                 print("You successfully drop one item at the correct place \n")
+    #                 print("You have received ")
+    #                 print(items.target_points)
+    #                 print(" points")
+    #         else:
+    #             i += 1
+    #     if i == len(world_items):
+    #         print(choice + " is not in your inventory.")
 
     # ------------------------------------------------------------------------------------------
     # location = w.get_location(p.x, p.y)
@@ -82,6 +107,8 @@ if __name__ == "__main__":
                 i = 0
                 for items in world_items:
                     if location.loc_number == items.current_position:
+                        print(items.current_position)
+                        print(location.loc_number)
                         p.pick_up_item(items)
                     else:
                         i += 1
@@ -90,23 +117,31 @@ if __name__ == "__main__":
 
             elif choice == "drop item":
                 lst = p.menu_actions("inventory", w.world_map, w.adv_location)
-                print("You have the following items")
-                print(lst)
-                choice = input("\nDrop Which One?").lower()
-                i = 0
-                for items in world_items:
-                    if choice == items.name:
-                        p.drop_item(items, location.loc_number)
-                    else:
-                        i += 1
-                if i == len(world_items):
-                    print(choice + " is not in your inventory.")
+                if lst == "Your inventory is empty":
+                    continue
+                else:
+                    print("You have the above items")
+                    choice = input("\nDrop Which One?").lower()
+                    i = 0
+                    for items in world_items:
+                        if choice == items.name:
+                            p.drop_item(items, location.loc_number)
+                            if location.loc_number == items.target_position:
+                                p.score += items.target_points
+                                print("You successfully drop one item at the correct place \n")
+                                print("You have received ")
+                                print(items.target_points)
+                                print("points")
+                        else:
+                            i += 1
+                    if i == len(world_items):
+                        print(choice + " is not in your inventory.")
 
             if choice == "[menu]":
                 print("Menu Options: \n")
                 for option in menu:
                     print(option)
-                choice = input("\nChoose action: ")
+                choice = input("\nChoose action: ").lower()
                 if choice == "quit":
                     print("The world will be unsaved, quiting game now...")
                     print("You can exit whenever you want")
@@ -114,7 +149,14 @@ if __name__ == "__main__":
                 else:
                     p.menu_actions(choice, w.world_map, w.adv_location)
 
-
+            if p.score >= win_need_score:
+                print("You have achieve the neccesary score to have 100% on the time! Are you continuing?")
+                choice = input("\nEnter Yes or No: ").lower()
+                if choice == "yes":
+                    p.victory = True
+                    print("Congradulation on Achienve 100 on the exam!")
+                else:
+                    continue
     else:
         print("The world will be unsaved, quiting game now...")
         print("You can exit whenever you want")
