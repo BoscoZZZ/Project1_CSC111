@@ -26,16 +26,21 @@ class Location:
     """A location in our text adventure game world.
 
     Instance Attributes:
-        - # TODO
+        - name: the name of the item
+        - loc_number: location number on the map.txt, 1 2 3 so on
+        - loc_item: the item at the current location, will be nothing is no items
+        - brief_desc: breif description of the location read from location.txt
+        - long_desc: long description of the location read from location.txt
+        - visited: whether the location is visited or not
 
     Representation Invariants:
         - # TODO
     """
 
     def __init__(self, name: str, loc_number: int, loc_item: class_item.Item, brief_desc: str, long_desc: str) -> None:
-        """Initialize a new location.
+        """
+        Initialize a new location.
 
-        # TODO Add more details here about the initialization if needed
         """
 
         # NOTES:
@@ -54,14 +59,12 @@ class Location:
         # The only thing you must NOT change is the name of this class: Location.
         # All locations in your game MUST be represented as an instance of this class.
 
-        # TODO: Complete this method
         self.name = name
         self.loc_number = loc_number
         self.loc_item = loc_item
         self.brief_desc = brief_desc
         self.long_desc = long_desc
         self.visited = False
-        self.is_destroyed = False
     #
     # def available_actions(self):
     #     """
@@ -74,16 +77,17 @@ class Location:
     #     # i.e. You may remove/modify/rename this as you like, and complete the
     #     # function header (e.g. add in parameters, complete the type contract) as needed
     #
-    #     # TODO: Complete this method, if you'd like or remove/replace it if you're not using it
 
     def get_full_description(self):
-        """ Return the full description of the location upon first visit
+        """
+        Return the full description of the location upon first visit
 
         """
         return f"LOCATION {self.loc_number}\n\n{self.long_desc}"
 
     def get_brief_description(self):
-        """ Return a brief description of the location if not player's first visit
+        """
+        Return a brief description of the location if not player's first visit
 
         """
         return f"LOCATION {self.loc_number}\n\n{self.brief_desc}"
@@ -95,5 +99,7 @@ class Location:
         actions = []
         if self.loc_item and self.loc_item.pick_up_state:
             actions.append(f"Pick up {self.loc_item.name}")
+
+        # Additional actions based on location-specific logic can be added here
 
         return actions
