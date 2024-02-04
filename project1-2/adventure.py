@@ -44,20 +44,18 @@ if __name__ == "__main__":
     missile_launch_puzzle = class_puzzle.MissileLaunch(hint="Walk around the campus to see if you can find "
                                                             "any hint for the password?", launch_pad="launch_pad",
                                                        password=1890169, sealed_item="Cheat_Sheet",
-                                                       target_loc="Super_Castle")
+                                                       target_loc=13)
     businessman_trading_puzzle = class_puzzle.BusinessmanTrading(hint="Trade wisely, some items are "
                                                                       "crucial for your success.", business_location=10,
                                                                  crucial_item=["Cheat_Sheet", "T-Card", "Stone",
                                                                                "Abrasive_tool", "Stone_Key",
                                                                                "launch_pad"], exchange_item="Lucky_Pen")
 
-
-
-    print("Welcome to the Text Adventure Game(UofT version)")
-    name = input("Please enter your name to continue: ")
-    print("hi, " + name + ". You can now choose to enter the game by entering enter, "
-                          "the rules will show up immediately, enter quit to quit the game ")
-    print("Your starting location will be  ROBARTS LIBRARY   ")
+    # print("Welcome to the Text Adventure Game(UofT version)")
+    # name = input("Please enter your name to continue: ")
+    # print("hi, " + name + ". You can now choose to enter the game by entering enter, "
+    #                       "the rules will show up immediately, enter quit to quit the game ")
+    # print("Your starting location will be  ROBARTS LIBRARY   ")
     choice = input("\nEnter action: ").lower()
     if choice == "enter":
         print("RULES AND PROMT")
@@ -88,7 +86,7 @@ if __name__ == "__main__":
             # print either full description (first time visit) or brief description (every subsequent visit)
             actions = []
             location_actions = []
-            special_actions = []
+            special_a = []
             print("Above is what you just done! What to do next? \n")
             print("You can choose to call [menu]")
             print("and these are the list of actions you can perform at this location: ")
@@ -99,10 +97,15 @@ if __name__ == "__main__":
                 for location_action in location.available_actions():
                     location_actions.append(location_action)
                 print("   Other actions: " + ", ".join(location_actions))
+
+                print("   Special actions is shown below")
+
                 special_actions = class_puzzle.available_action(p, w, businessman_trading_puzzle)
-                for special_action in special_actions:
-                    special_actions.append(special_action)
-                print("   Special actions: " + ", ".join(special_actions))
+                for s in special_actions:
+                    special_a.append(s)
+
+                # print("   ".join(special_actions))
+
             choice = input("\nEnter action: ").lower()
             if choice in ["north", "south", "west", "east"]:
                 p.go_direction(choice, w.map, w.locations)
@@ -160,7 +163,7 @@ if __name__ == "__main__":
                     print("You don't have the required item to open the chest.")
 
             elif choice == "type_password":
-                if "launch_pad" in p.inventory:
+                if "launch_pad" in p.menu_actions_2("inventory", w.world_map, w.adv_location):
                     player_input = int(input("Enter the password: "))
                     if missile_launch_puzzle.use_launch_pad(p, player_input, w):
                         print("Correct password! Super_Castle has been destroyed by the missile you just launched,"
