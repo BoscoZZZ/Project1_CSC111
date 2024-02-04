@@ -100,6 +100,9 @@ class OpenChest(Puzzle):
         self.solved = False
 
     def open_chest(self, player: class_player.Player, world: class_World.World):
+        """
+        1
+        """
         curr = world.get_location(player.x, player.y)
         if curr == self.chest_location and self.combined_item in player.inventory:
             player.inventory.append(self.final_item)
@@ -126,7 +129,7 @@ class MissileLaunch(Puzzle):
 
     """
 
-    def __init__(self, hint: str, password: int, launch_pad: str, sealed_item: str, target_loc: str):
+    def __init__(self, hint: str, password: int, launch_pad: str, sealed_item: str, target_loc: int):
         super().__init__(hint)
         self.password = password
         self.launch_pad = launch_pad
@@ -142,7 +145,9 @@ class MissileLaunch(Puzzle):
     def use_launch_pad(self, player: class_player.Player, player_input: int, world: class_World.World):
         """ Launch the missile if players discovered the launch as well as input the correct the password
         """
-        if self.check_password(player_input) and self.launch_pad in player.inventory:
+        # for item in player.inventory:
+        #     if item.name == "launch_pad":
+        if self.check_password(player_input):
             target_loc = world.locations[self.target_loc]
             world.destroy_location(target_loc)
             player.inventory.append(self.sealed_item)
@@ -150,6 +155,9 @@ class MissileLaunch(Puzzle):
         return self.solved
 
     def missile_hint(self):
+        """
+        1
+        """
         if not self.solved:
             print(self.hint)
 
@@ -193,8 +201,9 @@ class BusinessmanTrading(Puzzle):
             self.traded_or_not = True
 
 
-def available_action(player: class_player.Player, world: class_World.World, business: BusinessmanTrading):
-    """ Return a list of special available action
+def available_action(player: class_player.Player, world: class_World.World, business: BusinessmanTrading) -> list[str]:
+    """
+    Return a list of special available action
     """
     actions = []
     if all(item in player.inventory for item in ['Stone', 'Abrasive_tool']):
@@ -202,10 +211,15 @@ def available_action(player: class_player.Player, world: class_World.World, busi
     curr = world.get_location(player.x, player.y)
     if curr == 8 and 'Stone_Key' in player.inventory:
         actions.append("open_chest")
+
     for item in player.inventory:
         if item.name == "launch_pad":
-            print("1")
             actions.append("type_password")
+
     if not business.traded_or_not and curr == 10:
         actions.append("trade")
+
+    if not (actions == []):
+        print(actions)
+
     return actions
