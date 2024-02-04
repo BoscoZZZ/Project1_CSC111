@@ -24,7 +24,7 @@ import class_location
 
 def move_tracker():
     """
-    2
+    This is a helper function that help count the number of moves
     """
     command = input("Which direction do you want to go: ")
     if command.lower() in ["north", "south", "west", "east"]:
@@ -144,14 +144,16 @@ class Player:
         return locations[map_data[self.x][self.y]].long_desc
 
     def quit_game(self):
-        """ Game Over
+        """       
+        Game Over and quit game
 
         """
         print("Game Over")
         exit()
 
     def pick_up_item(self, item: class_item.Item):
-        """ Allow players to pick up items if they are at the item's location.
+        """ 
+        Allow players to pick up items if they are at the item's location.
 
         """
         if item.pick_up_state:
@@ -169,7 +171,8 @@ class Player:
             print(f"You picked up {item.name} again. (What you dropped before)")
 
     def drop_item(self, item: class_item.Item, loc: int):
-        """ Allow players to drop items in their inventory anytime they want.
+        """ 
+        Allow players to drop items in their inventory anytime they want.
 
         """
         self.inventory.remove(item)
@@ -179,7 +182,8 @@ class Player:
         # print(f"{item.name} is not in your inventory.")
 
     def get_inventory(self):
-        """ Allow players to get items
+        """ 
+        Allow players to get items
 
         """
         if not self.inventory:
@@ -191,20 +195,23 @@ class Player:
 
     def move_increment(self):
         """
-        2
+        A helper function that count the number of moves, if moves >= move limit
+        game ended immediately
         """
         self.current_move += 1
         if self.current_move >= self.move_limit:
             self.quit_game()
 
     def score_increment(self, points: int):
-        """ Update the player's score by a given amount.
+        """ 
+        Update the player's score by a given amount.
 
         """
         self.score += points
 
     def get_score(self):
-        """ Showing player's current score
+        """ 
+        Showing player's current score
 
         """
         return f"Your current score is {self.score}"
