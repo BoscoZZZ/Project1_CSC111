@@ -262,6 +262,9 @@ class World:
         return actions
 
     def destroy_location(self, location_name: class_location.Location):
+        """
+        1
+        """
         if location_name in self.locations:
             location_name.is_destroyed = True
             location_name.brief_desc = "The location has been destroyed by a missile."
