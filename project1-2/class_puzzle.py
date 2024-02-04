@@ -126,24 +126,25 @@ class MissileLaunch(Puzzle):
 
     """
 
-    def __init__(self, hint: str, password: int, launch_pad: str, sealed_item: str, target_location: str):
+    def __init__(self, hint: str, password: int, launch_pad: str, sealed_item: str, target_loc: str):
         super().__init__(hint)
         self.password = password
         self.launch_pad = launch_pad
         self.sealed_item = sealed_item
-        self.target_location = target_location
+        self.target_loc = target_loc
         self.solved = False
 
-    def check_password(self, player_input: str):
+    def check_password(self, player_input: int):
         """ Check if players input the correct password
         """
         return player_input == self.password
 
-    def use_launch_pad(self, player: class_player.Player):
+    def use_launch_pad(self, player: class_player.Player, player_input: int, world:class_World.World):
         """ Launch the missile if players discovered the launch as well as input the correct the password
         """
-        if self.check_password and self.launch_pad in player.inventory:
-            # destroy_location method in class world
+        if self.check_password(player_input) and self.launch_pad in player.inventory:
+            target_loc = world.locations[self.target_loc]
+            world.destroy_location(target_loc)
             player.inventory.append(self.sealed_item)
             self.solved = True
         return self.solved
@@ -173,8 +174,8 @@ class BusinessmanTrading(Puzzle):
         self.traded_or_not = False
 
     def trade(self, player: class_player.Player, item_to_trade):
-        """ Notice that if you give the businessman something you need in order to win the game, you lose the game directly!
-        So be careful with what you choose to trade, the businessman is going to give you something you need!
+        """ Notice that if you give the businessman something you need in order to win the game, you lose the game
+        directly! So be careful with what you choose to trade, the businessman is going to give you something you need!
         Notice that you can only trade with him once, once you trade with him successfully, and you go back to the same
         location, you won't be able to trade with him again! However, if you didn't trade with him upon first visit, you
         can still trade with him later.
@@ -191,7 +192,8 @@ class BusinessmanTrading(Puzzle):
             self.traded_or_not = True
 
 
-def available_action(player: class_player.Player, item: CombineItem, world: class_World.World, chest: OpenChest, missile: MissileLaunch):
+def available_action(player: class_player.Player, item: CombineItem, world: class_World.World,
+                     chest: OpenChest, missile: MissileLaunch):
     """ Return a list of special available action
     """
     actions = []
