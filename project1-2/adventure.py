@@ -22,7 +22,6 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 import class_player
 import class_World
 import class_puzzle
-import class_item
 
 # Note: You may add helper functions, classes, etc. here as needed
 
@@ -117,8 +116,7 @@ if __name__ == "__main__":
                 for location_action in location.available_actions():
                     location_actions.append(location_action)
                 print("   Other actions: " + ", ".join(location_actions))
-                special_actions = class_puzzle.available_action(p, combine_item_puzzle, w, open_chest_puzzle,
-                                                                missile_launch_puzzle, businessman_trading_puzzle)
+                special_actions = class_puzzle.available_action(p, w, businessman_trading_puzzle)
                 for special_action in special_actions:
                     special_actions.append(special_action)
                 print("   Special actions: " + ", ".join(special_actions))
@@ -130,8 +128,6 @@ if __name__ == "__main__":
                 i = 0
                 for items in world_items:
                     if location.loc_number == items.current_position:
-                        print(items.current_position)
-                        print(location.loc_number)
                         p.pick_up_item(items)
                     else:
                         i += 1
@@ -161,38 +157,37 @@ if __name__ == "__main__":
                         print(choice + " is not in your inventory.")
 
             elif choice == "combine":
-                inventory = p.menu_actions("inventory", w.world_map, w.adv_location)
-                if inventory == "Your inventory is empty":
+
+                if not p.inventory:
                     print("You have nothing to combine.")
                 else:
-                    print("You have the following items: " + ", ".join(inventory))
+                    print("You have the following items: ")
+                    p.menu_actions("inventory", w.world_map, w.adv_location)
                     item1 = input("Choose the first item to combine: ").lower()
                     item2 = input("Choose the second item to combine: ").lower()
                     if combine_item_puzzle.combine_item(p):
-                        print(f"You have successfully combined to create {combine_item_puzzle.combined_item}.")
+                        print("You have successfully combined to create Stone_Key.")
                     else:
                         print("These items cannot be combined.")
 
             elif choice == "open_chest":
-                curr_location = w.get_location(p.x, p.y).loc_number
                 if open_chest_puzzle.open_chest(p, w):
-                    print(f"You have successfully opened the chest and found {open_chest_puzzle.final_item}.")
+                    print("You have successfully opened the chest and found T-card.")
                 elif open_chest_puzzle.combined_item not in p.inventory:
                     print("You don't have the required item to open the chest.")
 
             elif choice == "type_password":
-                if missile_launch_puzzle.launch_pad in p.inventory:
+                if "launch_pad" in p.inventory:
                     player_input = int(input("Enter the password: "))
                     if missile_launch_puzzle.use_launch_pad(p, player_input, w):
-                        print(f"Correct password! {missile_launch_puzzle.target_loc} "
-                              f"has been destroyed by the missile you just launched, and you suddenly "
-                              f"see {missile_launch_puzzle.sealed_item} fly to your hands due to the explosion.")
+                        print("Correct password! Super_Castle has been destroyed by the missile you just launched,"
+                              " and you suddenly see Cheat_Sheet fly to your hands due to the explosion.")
                     else:
                         print("Incorrect password. Try again.")
 
             elif choice == "trade":
                 curr_location = w.get_location(p.x, p.y).loc_number
-                if curr_location == businessman_trading_puzzle.business_location and not businessman_trading_puzzle.traded_or_not:
+                if curr_location == 10 and not businessman_trading_puzzle.traded_or_not:
                     print("Available items to trade: " + ", ".join(p.inventory))
                     item_to_trade = input("Which item would you like to trade? ").lower()
                     businessman_trading_puzzle.trade(p, item_to_trade)
