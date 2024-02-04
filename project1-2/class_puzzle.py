@@ -89,7 +89,7 @@ class OpenChest(Puzzle):
         -
     """
 
-    def __init__(self, hint: str, combined_item: str, final_item: str, chest_location: tuple) -> None:
+    def __init__(self, hint: str, combined_item: str, final_item: str, chest_location: int) -> None:
         """ Initialize the use combined item to open the chest part of the puzzle
         """
         super().__init__(hint)
@@ -167,10 +167,11 @@ class BusinessmanTrading(Puzzle):
 
     """
 
-    def __init__(self, hint: str, exchange_item: str, crucial_item: list[str]):
+    def __init__(self, hint: str, exchange_item: str, crucial_item: list[str], business_location: int):
         super().__init__(hint)
         self.exchange_item = exchange_item
         self.crucial_item = crucial_item
+        self.business_location = business_location
         self.traded_or_not = False
 
     def trade(self, player: class_player.Player, item_to_trade):
@@ -193,15 +194,17 @@ class BusinessmanTrading(Puzzle):
 
 
 def available_action(player: class_player.Player, item: CombineItem, world: class_World.World,
-                     chest: OpenChest, missile: MissileLaunch):
+                     chest: OpenChest, missile: MissileLaunch, business: BusinessmanTrading):
     """ Return a list of special available action
     """
     actions = []
     if all(item in player.inventory for item in item.required_material):
-        actions.append("Combine")
+        actions.append("combine")
     curr = world.get_location(player.x, player.y)
     if curr == chest.chest_location and chest.combined_item in player.inventory:
-        actions.append("Open Chest")
+        actions.append("open_chest")
     if missile.launch_pad in player.inventory:
-        actions.append("Type Password")
+        actions.append("type_password")
+    if not business.traded_or_not and curr == business.business_location:
+        actions.append("trade")
     return actions
