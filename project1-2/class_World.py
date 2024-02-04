@@ -225,3 +225,11 @@ class World:
         actions.append("drop item")
 
         return actions
+
+
+     def destroy_location(self, location_name: class_location.Location):
+        if location_name in self.locations:
+            location_name.is_destroyed = True
+            location_name.brief_desc = "The location has been destroyed by a missile."
+            location_name.long_desc = "This used to be a super castle. The location has been destroyed by a missile."
+            print(f"{location_name} has been destroyed.")
