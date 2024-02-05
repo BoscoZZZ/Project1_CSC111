@@ -61,10 +61,12 @@ class CombineItem(Puzzle):
         self.combined_item = combined_item
         self.solved = False
 
-    def combine_item(self, player: class_player.Player):
+    def combine_item(self, player: class_player.Player, item1: str, item2: str):
         """ Verify if players are eligible for combining items
         """
-        if all(item in player.inventory for item in self.required_material):
+        if (("Stone" in player.inventory and "Abrasive_tool" in player.inventory) and
+                (item1 == "stone" or item2 == "stone")
+                and (item1 == "abrasive_tool" or item2 == "abrasive_tool")):
             for item in self.required_material:
                 player.inventory.remove(item)
             player.inventory.append(self.combined_item)
@@ -104,7 +106,7 @@ class OpenChest(Puzzle):
         1
         """
         curr = world.get_location(player.x, player.y)
-        if curr == self.chest_location and self.combined_item in player.inventory:
+        if curr.loc_number == self.chest_location and self.combined_item in player.inventory:
             player.inventory.append(self.final_item)
             self.solved = True
         return self.solved
@@ -194,8 +196,10 @@ class BusinessmanTrading(Puzzle):
             print("You already trade with me comrade! I have nothing left to give you.")
         if item_to_trade in self.crucial_item:
             print("Oh, you trade this precious thing with me! You won't be able to attend your test! HAHA!")
+            print("You lose the game haha!")
             player.victory = False
         else:
+            print("Good stuff! I will give you your lucky pen, just happened to find it somewhere in the campus.")
             player.inventory.remove(item_to_trade)
             player.inventory.append(self.exchange_item)
             self.traded_or_not = True
@@ -208,15 +212,17 @@ def available_action(player: class_player.Player, world: class_World.World, busi
     actions = []
     if all(item in player.inventory for item in ['Stone', 'Abrasive_tool']):
         actions.append("combine")
+
     curr = world.get_location(player.x, player.y)
-    if curr == 8 and 'Stone_Key' in player.inventory:
+
+    if all(item in player.inventory for item in ['Stone_Key']) and curr.loc_number == 19:
         actions.append("open_chest")
 
-    for item in player.inventory:
-        if item.name == "launch_pad":
+    for item in player.get_inventory():
+        if item == "launch_pad":
             actions.append("type_password")
 
-    if not business.traded_or_not and curr == 10:
+    if business.traded_or_not is False and curr.loc_number == 10:
         actions.append("trade")
 
     if not (actions == []):
