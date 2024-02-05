@@ -51,20 +51,19 @@ END
 
 LOCATION 8
 8
-You are outside the Robarts library.
-You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+businessman
+businessman
 END
 
 LOCATION 9
 9
-You are outside the Robarts library.
-You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+Locked Chest!
 END
 
 LOCATION 10
 10
-You are outside the Robarts library.
-You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+businessman
+businessman
 END
 
 LOCATION 11
@@ -117,8 +116,8 @@ END
 
 LOCATION 19
 19
-You are outside the Robarts library.
-You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+locked chest!
+locked chest!
 END
 
 LOCATION 20
