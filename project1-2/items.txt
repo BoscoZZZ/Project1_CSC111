@@ -1,5 +1,8 @@
-1 10 5 Cheat_Sheet
+10 10 5 Cheat_Sheet
 3 4 10 Lucky_Pen
 2 4 10 T-Card
 5 10 0 launch_pad
+1 0 0 trash
 hint What_items_can_be_combined_together 9 0 0 Stone Combine
+hint What_items_can_be_combined_together 14 0 0 Abrasive_tool Combine
+hint What_can_you_use_to_open_a_locked_chest 19 0 0 Chest Combine
