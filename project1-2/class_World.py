@@ -269,4 +269,4 @@ class World:
             location_name.is_destroyed = True
             location_name.brief_desc = "The location has been destroyed by a missile."
             location_name.long_desc = "This used to be a super castle. The location has been destroyed by a missile."
-            print(f"{location_name} has been destroyed.")
+            print("Super Castle has been destroyed.")
