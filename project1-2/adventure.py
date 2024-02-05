@@ -40,7 +40,7 @@ if __name__ == "__main__":
                                                    required_material=['Stone', 'Abrasive_tool'],
                                                    combined_item='Stone_Key')
     open_chest_puzzle = class_puzzle.OpenChest(hint="What item can you use to open the chest?",
-                                               combined_item="Stone_Key", chest_location=8, final_item="T-card")
+                                               combined_item="Stone_Key", chest_location=19, final_item="T-card")
     missile_launch_puzzle = class_puzzle.MissileLaunch(hint="Walk around the campus to see if you can find "
                                                             "any hint for the password?", launch_pad="launch_pad",
                                                        password=1890169, sealed_item="Cheat_Sheet",
@@ -51,11 +51,11 @@ if __name__ == "__main__":
                                                                                "Abrasive_tool", "Stone_Key",
                                                                                "launch_pad"], exchange_item="Lucky_Pen")
 
-    # print("Welcome to the Text Adventure Game(UofT version)")
-    # name = input("Please enter your name to continue: ")
-    # print("hi, " + name + ". You can now choose to enter the game by entering enter, "
-    #                       "the rules will show up immediately, enter quit to quit the game ")
-    # print("Your starting location will be  ROBARTS LIBRARY   ")
+    print("Welcome to the Text Adventure Game(UofT version)")
+    name = input("Please enter your name to continue: ")
+    print("hi, " + name + ". You can now choose to enter the game by entering enter, "
+                          "the rules will show up immediately, enter quit to quit the game ")
+    print("Your starting location will be  ROBARTS LIBRARY   ")
     choice = input("\nEnter action: ").lower()
     if choice == "enter":
         print("RULES AND PROMT")
@@ -103,7 +103,6 @@ if __name__ == "__main__":
                 special_actions = class_puzzle.available_action(p, w, businessman_trading_puzzle)
                 for s in special_actions:
                     special_a.append(s)
-
                 # print("   ".join(special_actions))
 
             choice = input("\nEnter action: ").lower()
@@ -143,7 +142,6 @@ if __name__ == "__main__":
                         print(choice + " is not in your inventory.")
 
             elif choice == "combine":
-
                 if not p.inventory:
                     print("You have nothing to combine.")
                 else:
@@ -151,32 +149,43 @@ if __name__ == "__main__":
                     p.menu_actions("inventory", w.world_map, w.adv_location)
                     item1 = input("Choose the first item to combine: ").lower()
                     item2 = input("Choose the second item to combine: ").lower()
-                    if combine_item_puzzle.combine_item(p):
+                    if item1 != item2 and combine_item_puzzle.combine_item(p, item1, item2):
                         print("You have successfully combined to create Stone_Key.")
                     else:
                         print("These items cannot be combined.")
 
             elif choice == "open_chest":
-                if open_chest_puzzle.open_chest(p, w):
+                inventory_items = p.get_inventory()
+                if any(item == "T-card" for item in inventory_items):
+                    print("You already obtain the item in the chest!")
+                elif open_chest_puzzle.open_chest(p, w):
                     print("You have successfully opened the chest and found T-card.")
                 elif open_chest_puzzle.combined_item not in p.inventory:
                     print("You don't have the required item to open the chest.")
 
             elif choice == "type_password":
-                if "launch_pad" in p.menu_actions_2("inventory", w.world_map, w.adv_location):
+                inventory_items = p.get_inventory()
+                launch_pad_present = any(item == "launch_pad" for item in inventory_items)
+                if any(item == "Cheat_Sheet" for item in inventory_items):
+                    print("The missile pad is already used, it is not responding")
+                elif launch_pad_present:
                     player_input = int(input("Enter the password: "))
                     if missile_launch_puzzle.use_launch_pad(p, player_input, w):
-                        print("Correct password! Super_Castle has been destroyed by the missile you just launched,"
+                        print("Correct password! Super_Castle has been destroyed by the missile you just launched,\n"
                               " and you suddenly see Cheat_Sheet fly to your hands due to the explosion.")
                     else:
                         print("Incorrect password. Try again.")
 
             elif choice == "trade":
                 curr_location = w.get_location(p.x, p.y).loc_number
-                if curr_location == 10 and not businessman_trading_puzzle.traded_or_not:
+                if curr_location == 10 and not businessman_trading_puzzle.traded_or_not and p.inventory != []:
                     print("Available items to trade: " + ", ".join(p.inventory))
-                    item_to_trade = input("Which item would you like to trade? ").lower()
+                    item_to_trade = input("Which item would you like to trade? ")
                     businessman_trading_puzzle.trade(p, item_to_trade)
+                    if not businessman_trading_puzzle.trade(p, item_to_trade):
+                        break
+                else:
+                    print("There is nothing for you to trade!")
 
             if choice == "[menu]":
                 print("Menu Options: \n")
