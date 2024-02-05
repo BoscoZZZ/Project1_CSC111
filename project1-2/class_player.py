@@ -157,7 +157,7 @@ class Player:
 
         """
         if item.pick_up_state:
-            self.inventory.append(item)
+            self.inventory.append(item.name)
             item.current_position = None
             # Item's start position is unique, and the purpose of current location is that if the player dropped the
             # item, they will be dropped at the current location, where the player currently standing, and waiting to
@@ -165,7 +165,7 @@ class Player:
             item.pick_up_state = False
             print(f"Wow! you discovered a {item.name}")
         elif not item.pick_up_state:
-            self.inventory.append(item)
+            self.inventory.append(item.name)
             item.current_position = None
             item.pick_up_state = False
             print(f"You picked up {item.name} again. (What you dropped before)")
@@ -189,7 +189,7 @@ class Player:
         if not self.inventory:
             return "Your inventory is empty"
         else:
-            inventory_list = [item.name for item in self.inventory]
+            inventory_list = [item for item in self.inventory]
 
         return inventory_list
 
