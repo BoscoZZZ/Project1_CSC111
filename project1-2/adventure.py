@@ -20,7 +20,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 
 # Note: You may add in other import statements here as needed
 import class_player
-import class_World
+import class_world
 import class_puzzle
 
 # Note: You may add helper functions, classes, etc. here as needed
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     #     world_map = w.load_map(map_file)
     #     adv_location = w.load_location(locations_file)
     #     world_items = w.load_items(items_file)
-    w = class_World.World(open("map.txt"), open("locations.txt"), open("items.txt"))
+    w = class_world.World(open("map.txt"), open("locations.txt"), open("items.txt"))
     p = class_player.Player(0, 0, 30)
     world_map = w.load_map(open("map.txt"))
     adv_location = w.load_location(open("locations.txt"))
@@ -52,14 +52,14 @@ if __name__ == "__main__":
                                                    required_material=['Stone', 'Abrasive_tool'],
                                                    combined_item='Stone_Key')
     open_chest_puzzle = class_puzzle.OpenChest(hint="What item can you use to open the chest?",
-                                               combined_item="Stone_Key", chest_location=19, final_item="T-card")
+                                               combined_item="Stone_Key", chest_location=19, final_item="T_card")
     missile_launch_puzzle = class_puzzle.MissileLaunch(hint="Walk around the campus to see if you can find "
                                                             "any hint for the password?", launch_pad="launch_pad",
                                                        password=1890169, sealed_item="Cheat_Sheet",
                                                        target_loc=13)
     businessman_trading_puzzle = class_puzzle.BusinessmanTrading(hint="Trade wisely, some items are "
                                                                       "crucial for your success.", business_location=17,
-                                                                 crucial_item=["Cheat_Sheet", "T-Card", "Stone",
+                                                                 crucial_item=["Cheat_Sheet", "T_Card", "Stone",
                                                                                "Abrasive_tool", "Stone_Key",
                                                                                "launch_pad"], exchange_item="Lucky_Pen")
 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
               "Last night was a particularly late night on campus. You had difficulty focusing, so rather\n "
               "than staying in one place, you studied in various places throughout campus as the night progressed.\n "
               "Unfortunately, when you woke up this morning, you were missing some important exam-related items.\n "
-              "You cannot find your T-card, and you're nervous they won't let you into tonight's exam without it.\n "
+              "You cannot find your T_card, and you're nervous they won't let you into tonight's exam without it.\n "
               "Also, you seem to have misplaced your lucky exam pen -- even if they let you in, you can't possibly\n "
               "write with another pen! Finally, your instructor for the course lets you bring a cheat sheet - \n"
               "a handwritten page of information in the exam. Last night, you painstakingly crammed as much \n"
@@ -87,7 +87,7 @@ if __name__ == "__main__":
         print("Following items are hidden in the 5 * 5 map"
               "there are 23 locations in total")
         print("Your starting location will be  ROBERTS LIBRARY   ")
-        p.menu_actions("look", w.world_map, w.adv_location)
+        p.menu_actions("look", world_map, adv_location)
         # ----------------------------------------------------------------------------
         print("Loading...")
         print("You have started the game, Good Luck!")
@@ -130,8 +130,8 @@ if __name__ == "__main__":
                     print("You can pick up the air on the floor, will you?")
 
             elif choice == "drop item":
-                lst = p.menu_actions_2("inventory", w.world_map, w.adv_location)
-                p.menu_actions("inventory", w.world_map, w.adv_location)
+                lst = p.menu_actions_2("inventory", world_map, adv_location)
+                p.menu_actions("inventory", world_map, adv_location)
                 if lst == "Your inventory is empty":
                     continue
                 else:
@@ -167,10 +167,10 @@ if __name__ == "__main__":
 
             elif choice == "open_chest":
                 inventory_items = p.get_inventory()
-                if any(item == "T-card" for item in inventory_items):
+                if any(item == "T_card" for item in inventory_items):
                     print("You already obtain the item in the chest!")
                 elif open_chest_puzzle.open_chest(p, w):
-                    print("You have successfully opened the chest and found T-card.")
+                    print("You have successfully opened the chest and found T_card.")
                 elif open_chest_puzzle.combined_item not in p.inventory:
                     print("You don't have the required item to open the chest.")
 
@@ -214,7 +214,7 @@ if __name__ == "__main__":
                     print("You can exit whenever you want")
                     break
                 else:
-                    p.menu_actions(choice, w.world_map, w.adv_location)
+                    p.menu_actions(choice, world_map, adv_location)
 
             if p.score >= win_need_score:
                 # score have been reached
