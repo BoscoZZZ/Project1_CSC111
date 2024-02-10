@@ -55,10 +55,10 @@ if __name__ == "__main__":
     name = input("Please enter your name to continue: ")
     print("hi, " + name + ". You can now choose to enter the game by entering enter, "
                           "the rules will show up immediately, enter quit to quit the game ")
-    print("Your starting location will be  ROBARTS LIBRARY   ")
+    print("Your starting location will be ROBERTS LIBRARY   ")
     choice = input("\nEnter action: ").lower()
     if choice == "enter":
-        print("RULES AND PROMT")
+        print("RULES AND PROMPT")
         # ----------------------------------------------------------------------------
         print("# ----------------------------------------------------------------------------#")
         print("You've got an important exam coming up this evening, and you've been studying for weeks. \n"
@@ -74,16 +74,13 @@ if __name__ == "__main__":
         print("# ----------------------------------------------------------------------------#")
         print("Following items are hidden in the 4 * 4 map,___________"
               "there are ___ locations in total")
-        print("Your starting location will be  ROBARTS LIBRARY   ")
+        print("Your starting location will be  ROBERTS LIBRARY   ")
         p.menu_actions("look", w.world_map, w.adv_location)
         # ----------------------------------------------------------------------------
         print("Loading...")
         print("You have started the game, Good Luck!")
         while not p.victory:
             location = w.get_location(p.x, p.y)
-            # TODO: ENTER CODE HERE TO PRINT LOCATION DESCRIPTION
-            # Depending on whether or not it's been visited before,
-            # print either full description (first time visit) or brief description (every subsequent visit)
             actions = []
             location_actions = []
             special_a = []
