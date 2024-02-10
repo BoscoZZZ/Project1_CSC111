@@ -28,6 +28,11 @@ import class_puzzle
 # Note: You may modify the code below as needed; the following starter template are just suggestions
 if __name__ == "__main__":
     win_need_score = 20
+    # the score needs to win
+    have_move = 30
+    # the moves you have
+    current_moves = 0
+    # starting moves
     w = class_World.World(open("map.txt"), open("locations.txt"), open("items.txt"))
     p = class_player.Player(0, 0, 30)
     world_map = w.load_map(open("map.txt"))
@@ -105,6 +110,7 @@ if __name__ == "__main__":
             choice = input("\nEnter action: ").lower()
             if choice in ["north", "south", "west", "east"]:
                 p.go_direction(choice, w.map, w.locations)
+                current_moves += 1
 
             elif choice == "pick up":
                 i = 0
@@ -184,6 +190,12 @@ if __name__ == "__main__":
                 else:
                     print("There is nothing for you to trade!")
 
+            if current_moves >= have_move:
+                # move have been reached
+                print("You have walked too much... It is too late... You failed... You are destine to fail.")
+                print("You can restart the game to go back to this morning")
+                break
+
             if choice == "[menu]":
                 print("Menu Options: \n")
                 for option in menu:
@@ -197,6 +209,7 @@ if __name__ == "__main__":
                     p.menu_actions(choice, w.world_map, w.adv_location)
 
             if p.score >= win_need_score:
+                # score have been reached
                 print("You have achieve the necessary score to have 100% on the time! Are you continuing?")
                 choice = input("\nEnter Yes or No: ").lower()
                 if choice == "yes":
@@ -207,14 +220,3 @@ if __name__ == "__main__":
     else:
         print("The world will be unsaved, quiting game now...")
         print("You can exit whenever you want")
-
-        # TODO: CALL A FUNCTION HERE TO HANDLE WHAT HAPPENS UPON THE PLAYER'S CHOICE
-        #  REMEMBER: the location = w.get_location(p.x, p.y) at the top of this loop will update the location if
-        #  the choice the player made was just a movement, so only updating player's position is enough to change the
-        #  location to the next appropriate location
-        #  Possibilities:
-        #  A helper function such as do_action(w, p, location, choice)
-        #  OR A method in World class w.do_action(p, location, choice)
-        #  OR Check what type of action it is, then modify only player or location accordingly
-        #  OR Method in Player class for move or updating inventory
-        #  OR Method in Location class for updating location item info, or other location data etc....
