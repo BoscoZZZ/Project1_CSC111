@@ -35,6 +35,12 @@ class Item:
     Representation Invariants:
         - self.target_points >= 0
     """
+    name: str
+    start_position: int
+    target_position: int
+    target_points: int
+    current_position: int
+    pick_up_state: bool
 
     def __init__(self, name: str, start: int, target: int, target_points: int, curr: int, ) -> None:
         """Initialize a new item.
@@ -55,7 +61,18 @@ class PuzzleItem(Item):
         - puzzle_type: The type of puzzle that item associate with
 
     """
-    def __init__(self, name: str, start: int, target: int, target_points: int, curr: int, hint: str, puzzle_type: str):
+    hint: str
+    puzzle_type: str
+
+    def __init__(self, name: str, start: int, target: int, target_points: int, curr: int, hint: str, puzzle_type: str) \
+            -> None:
         super().__init__(name, start, target, target_points, curr)
         self.hint = hint
         self.puzzle_type = puzzle_type
+
+
+# if __name__ == '__main__':
+#     import python_ta
+#     python_ta.check_all(config={
+#         'max-line-length': 120
+#     })
