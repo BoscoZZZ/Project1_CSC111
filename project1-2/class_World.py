@@ -30,12 +30,10 @@ class World:
     Instance Attributes:
         - map: a nested list representation of this world's map
         - location_data: a nested list of location object of the world
-        - items_data: a newsted list of item object of the world
+        - items_data: a nested list of item object of the world
         - locations: initial empty world if not text read
         - items: initial empty items if not item read
 
-    Representation Invariants:
-        - # TODO
     """
 
     def __init__(self, map_data: TextIO, location_data: TextIO, items_data: TextIO) -> None:
@@ -47,27 +45,11 @@ class World:
         """
         self.world_map = self.load_map(open("map.txt"))
         self.adv_location = self.load_location(open("locations.txt"))
-
-        # NOTES:
-
-        # map_data should refer to an open text file containing map data in a grid format, with integers separated by a
-        # space, representing each location, as described in the project handout. Each integer represents a different
-        # location, and -1 represents an invalid, inaccessible space.
-
-        # You may ADD parameters/attributes/methods to this class as you see fit.
-        # BUT DO NOT RENAME OR REMOVE ANY EXISTING METHODS/ATTRIBUTES IN THIS CLASS
-
-        # The map MUST be stored in a nested list as described in the load_map() function's docstring below
         self.map = self.load_map(map_data)
         self.location_data = self.load_location(location_data)
         self.items_data = self.load_items(items_data)
         self.locations = []
         self.items = []
-
-        # NOTE: You may choose how to store location and item data; create your own World methods to handle these
-        # accordingly. The only requirements:
-        # 1. Make sure the Location class is used to represent each location.
-        # 2. Make sure the Item class is used to represent each item.
 
     # NOTE: The method below is REQUIRED. Complete it exactly as specified.
     def load_map(self, map_data: TextIO) -> list[list[int]]:
@@ -81,16 +63,12 @@ class World:
 
         Return this list representation of the map.
         """
-        # TODO: DONE: UNCHECKED Complete this method as specified. Do not modify any of this function's specifications.
         self.map = []
-        # create a new map list storing data
         for line in map_data:
-            # traversing map_data and put them in self.map line by line
             self.map.append([int(num) for num in line.split()])
 
         return self.map
 
-    # TODO: Add methods for loading location data and item data (see note above).
     def load_location(self, locations_data: TextIO) -> list[Optional[class_location.Location]]:
         """
         Store location from open file locations data as the location attribute of this object
@@ -153,47 +131,9 @@ class World:
                 item = class_item.PuzzleItem(fields[5], int(fields[2]), int(fields[3]), int(fields[4]), int(fields[2]),
                                              fields[1], fields[6])
             else:
-                # Assuming the Item class constructor matches these parameters
                 item = class_item.Item(fields[3], int(fields[0]), int(fields[1]), int(fields[2]), int(fields[0]))
             self.items.append(item)
         return self.items
-        # self.items = []
-        # # create a new items list to store data
-        # for line in items_data:
-        #     fields = line.split()
-        #     if fields[0] == "hint":
-        #         item.hint = fields[1]
-        #         item.start_position = int(fields[2])
-        #         item.target_position = int(fields[3])
-        #         item.target_points = int(fields[4])
-        #         item.name = fields[5]
-        #         item.puzzle_type = fields[6]
-        #         item = class_item.PuzzleItem(item.name, item.start_position, item.target_position, item.target_points,
-        #                                      item.start_position, item.hint, item.puzzle_type)
-        #     else:
-        #         item.name = fields[3].lower()
-        #         item.start_position = int(fields[0])
-        #         item.target_position = int(fields[1])
-        #         item.target_points = int(fields[2])
-        #         item.current_position = int(fields[0])
-        #         item = class_item.Item(item.name, item.start_position, item.target_position, item.target_points,
-        #                                item.current_position)
-        #     self.items.append(item)
-        # return self.items
-
-        #     # traversing the text file and store base on every line
-        #     fields = line.split()
-        #     item = class_item.Item(fields[3].lower(), int(fields[0]), int(fields[1]), int(fields[2]),
-        #                            int(fields[0]), '', '')
-        #     puzzle_item = class_item.Item(fields[4].lower(), int(fields[1]), int(fields[2]), int(fields[3]),
-        #                                   int(fields[1]), fields[0], fields[5])
-        #     # fields[3] represent the last variable which is name, this will be store in self.name
-        #     # the rest are similar as above fields[3]
-        #     self.items.append(item)
-        #     self.items.append(puzzle_item)
-        #     # append
-        #
-        # return self.items
 
     def get_location(self, x: int, y: int) -> Optional[class_location.Location]:
         """Return Location object associated with the coordinates (x, y) in the world map, if a valid location exists at
@@ -201,14 +141,10 @@ class World:
          return None.)
         """
         if x < 0 or y < 0 or x >= len(self.map) or y >= len(self.map[0]):
-            # This is the case where one of them is out of bound
             return None
         elif self.map[x][y] == -1:
-            # This is the case where the number is -1 on the map
             return None
         else:
-            # # Return the location
-            # return class_location.Location(self.map[x][y])
             location_index = self.map[x][y]
             if 0 <= location_index < len(self.locations):
                 return self.locations[location_index]
@@ -237,11 +173,6 @@ class World:
         The actions should depend on the items available in the location
         and the x,y position of this location on the world map.
         """
-
-        # NOTE: This is just a suggested method
-        # i.e. You may remove/modify/rename this as you like, and complete the
-        # function header (e.g. add in parameters, complete the type contract) as needed
-
         x, y = player.x, player.y
         actions = []
 
@@ -263,7 +194,8 @@ class World:
 
     def destroy_location(self, location_name: class_location.Location):
         """
-        1
+        Once player successfully input the correct password for the launch pad, the corresponding location
+        will be destroyed
         """
         if location_name in self.locations:
             location_name.is_destroyed = True
