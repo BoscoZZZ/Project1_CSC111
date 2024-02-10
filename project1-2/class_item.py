@@ -33,33 +33,28 @@ class Item:
         - pick_up_state: Indicate whether the item can be picked up or not at the moment
 
     Representation Invariants:
-        - target_points >= 0
+        - self.target_points >= 0
     """
 
     def __init__(self, name: str, start: int, target: int, target_points: int, curr: int, ) -> None:
         """Initialize a new item.
         """
-
-        # NOTES:
-        # This is just a suggested starter class for Item.
-        # You may change these parameters and the data available for each Item object as you see fit.
-        # (The current parameters correspond to the example in the handout).
-        # Consider every method in this Item class as a "suggested method".
-        #
-        # The only thing you must NOT change is the name of this class: Item.
-        # All item objects in your game MUST be represented as an instance of this class.
-
         self.name = name
         self.start_position = start
         self.target_position = target
         self.target_points = target_points
         self.current_position = curr
-        # determine if this item can be picked up
-
         self.pick_up_state = True
 
 
 class PuzzleItem(Item):
+    """ An item that is associate with puzzles
+
+    Instance Attribute:
+        - hint: A little bit of hint of the puzzle for players who are attempting to solve it
+        - puzzle_type: The type of puzzle that item associate with
+
+    """
     def __init__(self, name: str, start: int, target: int, target_points: int, curr: int, hint: str, puzzle_type: str):
         super().__init__(name, start, target, target_points, curr)
         self.hint = hint
