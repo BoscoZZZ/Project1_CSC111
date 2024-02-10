@@ -34,6 +34,12 @@ class Location:
         - visited: whether the location is visited or not
 
     """
+    name: str
+    loc_number: int
+    loc_item: class_item.Item
+    brief_desc: str
+    long_desc: str
+    visted: bool
 
     def __init__(self, name: str, loc_number: int, loc_item: class_item.Item, brief_desc: str, long_desc: str) -> None:
         """
@@ -47,21 +53,21 @@ class Location:
         self.long_desc = long_desc
         self.visited = False
 
-    def get_full_description(self):
+    def get_full_description(self) -> str:
         """
         Return the full description of the location upon first visit
 
         """
         return f"LOCATION {self.loc_number}\n\n{self.long_desc}"
 
-    def get_brief_description(self):
+    def get_brief_description(self) -> str:
         """
         Return a brief description of the location if not player's first visit
 
         """
         return f"LOCATION {self.loc_number}\n\n{self.brief_desc}"
 
-    def available_actions(self):
+    def available_actions(self) -> list:
         """
         Return a list of available actions at this location.
         """
@@ -69,3 +75,9 @@ class Location:
         if self.loc_item and self.loc_item.pick_up_state:
             actions.append(f"Pick up {self.loc_item.name}")
         return actions
+
+    # if __name__ == '__main__':
+    #     import python_ta
+    #     python_ta.check_all(config={
+    #         'max-line-length': 120
+    #     })
