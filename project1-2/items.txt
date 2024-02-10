@@ -1,6 +1,6 @@
 -1 23 10 Cheat_Sheet
 -1 23 10 Lucky_Pen
--1 23 10 T-Card
+-1 23 10 T_card
 6 0 0 launch_pad
 hint What_items_can_be_combined_together 7 0 0 Stone Combine
 hint What_items_can_be_combined_together 14 0 0 Abrasive_tool Combine
