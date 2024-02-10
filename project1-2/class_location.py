@@ -29,12 +29,10 @@ class Location:
         - name: the name of the item
         - loc_number: location number on the map.txt, 1 2 3 so on
         - loc_item: the item at the current location, will be nothing is no items
-        - brief_desc: breif description of the location read from location.txt
+        - brief_desc: brief description of the location read from location.txt
         - long_desc: long description of the location read from location.txt
         - visited: whether the location is visited or not
 
-    Representation Invariants:
-        - # TODO
     """
 
     def __init__(self, name: str, loc_number: int, loc_item: class_item.Item, brief_desc: str, long_desc: str) -> None:
@@ -42,41 +40,12 @@ class Location:
         Initialize a new location.
 
         """
-
-        # NOTES:
-        # Data that could be associated with each Location object:
-        # a position in the world map,
-        # a brief description,
-        # a long description,
-        # a list of available commands/directions to move,
-        # items that are available in the location,
-        # and whether the location has been visited before.
-        # Store these as you see fit, using appropriate data types.
-        #
-        # This is just a suggested starter class for Location.
-        # You may change/add parameters and the data available for each Location object as you see fit.
-        #
-        # The only thing you must NOT change is the name of this class: Location.
-        # All locations in your game MUST be represented as an instance of this class.
-
         self.name = name
         self.loc_number = loc_number
         self.loc_item = loc_item
         self.brief_desc = brief_desc
         self.long_desc = long_desc
         self.visited = False
-    #
-    # def available_actions(self):
-    #     """
-    #     Return the available actions in this location.
-    #     The actions should depend on the items available in the location
-    #     and the x,y position of this location on the world map.
-    #     """
-    #
-    #     # NOTE: This is just a suggested method
-    #     # i.e. You may remove/modify/rename this as you like, and complete the
-    #     # function header (e.g. add in parameters, complete the type contract) as needed
-    #
 
     def get_full_description(self):
         """
@@ -99,7 +68,4 @@ class Location:
         actions = []
         if self.loc_item and self.loc_item.pick_up_state:
             actions.append(f"Pick up {self.loc_item.name}")
-
-        # Additional actions based on location-specific logic can be added here
-
         return actions
