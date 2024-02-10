@@ -6,33 +6,37 @@
 \usepackage[margin=0.75in]{geometry}
 
 \title{CSC111 Winter 2024 Project 1}
-\author{TODO: FILL IN YOUR NAME(S) HERE}
+\author{Ao Tian, Bosco Zeng}
 \date{\today}
 
 \begin{document}
-\maketitle
+\Enhancements
 
 \section*{Enhancements}
 
 
 \begin{enumerate}
 
-\item Describe your enhancement \#1 here
+\item Combine Items & Open Chest
 	\begin{itemize}
-	\item Brief description of what the enhancement is (if it's a puzzle, also describe what steps the player must take to solve it):
-	\item Complexity level (choose from low/medium/high):
-	\item Reasons you believe this is the complexity level (e.g. mention implementation details, how much code did you have to add/change from the baseline, what challenges did you face, etc.)
-	% Feel free to add more subheadings if you need
+	\item This puzzle requires players to pick up two specific items(stone and abrasive_tool), and after that the "combine" action will appear for players. After player type "combine" in their console, it will first display player's inventory and ask players to select two specific items. Only if "Stone" and "Abrasive_tool" are selected, the combine process will succeed. After players obtained the combined item "Stone_Key", it won't be useful until players reach the location of the chest. The "open_chest" action will pop up for players. Notice that the chest can only be opened once, once players type "open_chest" in the console, they will get the items that's essential in winning the game. This puzzle is solved.
+	\item Complexity level (medium):
+	\item For all the puzzles in the game, I create a separate class called puzzle_class, the overall implementation is not very complex, but requires a deep interaction with all the main functionalities in the baseline part of the game like inventory and player's updated location. Quiet a lot code is added including the combine_item class, open_chest class as well as corresponding components in other files of the game. The main difficulty comes from combining this new puzzle into the main body of the game. Many bugs encountered and many new functions required. Also to make the whole puzzle class more integrated, every single puzzle in the puzzle class is an inheritance of the parent Puzzle.
 	\end{itemize}
 
-% Uncomment below section if you have more enhancements; copy-paste as many times as needed
-%\item Describe your enhancement here
-%	\begin{itemize}
-%	\item Basic description of what the enhancement is:
-%	\item Complexity level (low/medium/high):
-%	\item Reasons you believe this is the complexity level (e.g. mention implementation details 
-%	% Feel free to add more subheadings if you feel the need
-%	\end{itemize}
+\item Missile Launch
+	\begin{itemize}
+	\item This puzzle required players to pick up one specific item called "launch_pad", and after that the "type_password" action will appear for players. After player type "type_password" in their console, it will ask players to type out the specific password(1890169), the hint for the password are spread around the campus(two pieces of info). Players will need a bit of patience to find them through reading the description of the location. Once player type the correct password, the missile will be launched and a place called "Super_Castle" will be destroyed. The item will flied to players' hands directly due to explosion(In other words, once the correct password is typed, the item will be appended to players' inventory automatically). This puzzle is solved.
+	\item Complexity level (easy):
+	\item After the combine item & open chest is implemented, this missile launch is quite similar to the previous one, with the same type of interaction with players' inventory. The only different component is that specific passcode need to be input to solve the puzzle. Also after the missile launch, that specific location will be labeled as destroyed, this part requires the interaction with the description of the location in the baseline component of the game. The Missile_Launch Class is also a child class of the main Puzzle Class.
+	\end{itemize}
+
+\item Businessman Trading
+	\begin{itemize}
+	\item The puzzle requires players to go to the location of the "businessman_token", where the businessman located. Once you are at the location of the businessman, you can trade with him(only once, once you trade with him and come back to the same location, you won't be able to trade with him again). This part is quite interesting because the item you choose to trade with him is extremely important, if you choose items to trade with the businessman that are crucial to you(like items that required to win the game), you will lose the game directly and the businessman will laugh at you. The game will shut down directly as a sign of ridicule. To ensure players don't trade important items with the businessman, there are many junk on the map like "sock", "coca_cola", "cheese_burger" and "Nintendo_switch". After you trade with the businessman, you will obtain the item that's crucial for you to win the game. This puzzle is solved.
+	\item Complexity level (medium):
+	\item This puzzle is quite different from the last two, it requires deep interaction with players' inventory, updated location, the property of first visited or not, as well as the winning condition component of the baseline of the game. The overall implementation of this puzzle is not complex but requires certain amount of efforts in combing it with the whole game. The whole businessman_trading class is added as well as many corresponding chunks in different classes and adventure.py. I have encountered many bugs in implementing this part, especially when try to blend it into the adventure.py part. However, since I also gain some experience in the implementation of the first puzzle, it is overall not very hard to implement.
+	\end{itemize}
 
 \end{enumerate}
 
