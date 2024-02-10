@@ -19,7 +19,7 @@ please consult our Course Syllabus.
 This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 import class_player
-import class_World
+import class_world
 
 
 class Puzzle:
@@ -30,6 +30,8 @@ class Puzzle:
         - solved: the status showing whether this puzzle have been solved or not
 
     """
+    hint: str
+    solved: bool
 
     def __init__(self, hint: str) -> None:
         """ Initialize a new puzzle
@@ -48,6 +50,10 @@ class CombineItem(Puzzle):
         - solved: the status showing whether this puzzle have been solved or not
 
     """
+    hint: str
+    required_material: list[str]
+    combined_item: str
+    solved: bool
 
     def __init__(self, hint: str, required_material: list[str], combined_item: str) -> None:
         """ Initialize the item combination part of the puzzle
@@ -59,20 +65,19 @@ class CombineItem(Puzzle):
         self.combined_item = combined_item
         self.solved = False
 
-    def combine_item(self, player: class_player.Player, item1: str, item2: str):
+    def combine_item(self, player: class_player.Player, item1: str, item2: str) -> bool:
         """ Verify if players are eligible for combining items
 
         """
-        if (("Stone" in player.inventory and "Abrasive_tool" in player.inventory) and
-                (item1 == "stone" or item2 == "stone")
-                and (item1 == "abrasive_tool" or item2 == "abrasive_tool")):
+        if (("Stone" in player.inventory and "Abrasive_tool" in player.inventory)
+                and (item1 == "stone" or item2 == "stone") and (item1 == "abrasive_tool" or item2 == "abrasive_tool")):
             for item in self.required_material:
                 player.inventory.remove(item)
             player.inventory.append(self.combined_item)
             self.solved = True
         return self.solved
 
-    def hint_combine(self):
+    def hint_combine(self) -> None:
         """ Provide a hint for combining if player cannot solve
         """
         if not self.solved:
@@ -90,6 +95,10 @@ class OpenChest(Puzzle):
         - solved: the status showing whether this puzzle have been solved or not
 
     """
+    hint: str
+    combined_item: str
+    final_item: str
+    chest_location: int
 
     def __init__(self, hint: str, combined_item: str, final_item: str, chest_location: int) -> None:
         """ Initialize the use combined item to open the chest part of the puzzle
@@ -101,9 +110,9 @@ class OpenChest(Puzzle):
         self.chest_location = chest_location
         self.solved = False
 
-    def open_chest(self, player: class_player.Player, world: class_World.World):
+    def open_chest(self, player: class_player.Player, world: class_world.World) -> bool:
         """
-        1
+        Open the chest that exist
         """
         curr = world.get_location(player.x, player.y)
         if curr.loc_number == self.chest_location and self.combined_item in player.inventory:
@@ -111,8 +120,9 @@ class OpenChest(Puzzle):
             self.solved = True
         return self.solved
 
-    def chest_hint(self):
-        """ Provide a hint for how to open the chest
+    def chest_hint(self) -> None:
+        """
+        Provide a hint for how to open the chest
 
         """
         if not self.solved:
@@ -131,8 +141,13 @@ class MissileLaunch(Puzzle):
         - solved: the status showing whether this puzzle have been solved or not
 
     """
+    password: int
+    launch_pad: str
+    sealed_item: str
+    target_loc: int
+    solved: bool
 
-    def __init__(self, hint: str, password: int, launch_pad: str, sealed_item: str, target_loc: int):
+    def __init__(self, hint: str, password: int, launch_pad: str, sealed_item: str, target_loc: int) -> None:
         super().__init__(hint)
         self.password = password
         self.launch_pad = launch_pad
@@ -140,12 +155,12 @@ class MissileLaunch(Puzzle):
         self.target_loc = target_loc
         self.solved = False
 
-    def check_password(self, player_input: int):
+    def check_password(self, player_input: int) -> bool:
         """ Check if players input the correct password
         """
         return player_input == self.password
 
-    def use_launch_pad(self, player: class_player.Player, player_input: int, world: class_World.World):
+    def use_launch_pad(self, player: class_player.Player, player_input: int, world: class_world.World) -> bool:
         """ Launch the missile if players discovered the launch as well as input the correct the password
         """
         if self.check_password(player_input):
@@ -167,16 +182,21 @@ class BusinessmanTrading(Puzzle):
         - trade_or_not: determine whether the player have traded with the businessman once or not
 
     """
+    exchange_item: str
+    crucial_item: list[str]
+    business_location: int
+    traded_or_not: bool
 
-    def __init__(self, hint: str, exchange_item: str, crucial_item: list[str], business_location: int):
+    def __init__(self, hint: str, exchange_item: str, crucial_item: list[str], business_location: int) -> None:
         super().__init__(hint)
         self.exchange_item = exchange_item
         self.crucial_item = crucial_item
         self.business_location = business_location
         self.traded_or_not = False
 
-    def trade(self, player: class_player.Player, item_to_trade):
-        """ Notice that if you give the businessman something you need in order to win the game, you lose the game
+    def trade(self, player: class_player.Player, item_to_trade) -> None:
+        """
+        Notice that if you give the businessman something you need in order to win the game, you lose the game
         directly! So be careful with what you choose to trade, the businessman is going to give you something you need!
         Notice that you can only trade with him once, once you trade with him successfully, and you go back to the same
         location, you won't be able to trade with him again! However, if you didn't trade with him upon first visit, you
@@ -191,12 +211,12 @@ class BusinessmanTrading(Puzzle):
             player.victory = False
         else:
             print("Good stuff! I will give you your lucky pen, just happened to find it somewhere in the campus.")
+            player.inventory.remove(item_to_trade)
             player.inventory.append(self.exchange_item)
             self.traded_or_not = True
-         return self.traded_or_not
 
 
-def available_action(player: class_player.Player, world: class_World.World, business: BusinessmanTrading) -> list[str]:
+def available_action(player: class_player.Player, world: class_world.World, business: BusinessmanTrading) -> list[str]:
     """
     Return a list of special available action
     """
@@ -213,10 +233,17 @@ def available_action(player: class_player.Player, world: class_World.World, busi
         if item == "launch_pad":
             actions.append("type_password")
 
-    if business.traded_or_not is False and curr.loc_number == 10:
+    if business.traded_or_not is False and curr.loc_number == 17:
         actions.append("trade")
 
-    if not (actions == []):
+    if not actions == []:
         print(actions)
 
     return actions
+
+
+# if __name__ == '__main__':
+#     import python_ta
+#     python_ta.check_all(config={
+#         'max-line-length': 120
+#     })
