@@ -33,12 +33,19 @@ if __name__ == "__main__":
     # the moves you have
     current_moves = 0
     # starting moves
+    # with (open("map.txt", "r") as map_file, open("locations.txt", "r") as locations_file,
+    #       open("items.txt", "r") as items_file):
+    #     w = class_World.World(map_file, locations_file, items_file)
+    #     p = class_player.Player(0, 0, 30)
+    #     world_map = w.load_map(map_file)
+    #     adv_location = w.load_location(locations_file)
+    #     world_items = w.load_items(items_file)
     w = class_World.World(open("map.txt"), open("locations.txt"), open("items.txt"))
     p = class_player.Player(0, 0, 30)
     world_map = w.load_map(open("map.txt"))
     adv_location = w.load_location(open("locations.txt"))
     world_items = w.load_items(open("items.txt"))
-
+    #
     menu = ["look", "inventory", "score", "quit", "back"]
 
     combine_item_puzzle = class_puzzle.CombineItem(hint="What two items can be combined to get what you want?",
@@ -77,8 +84,8 @@ if __name__ == "__main__":
               "material onto a single page as humanly possible, but that's missing, too! All of this stuff must\n "
               "be around campus somewhere! Can you find all of it before your exam starts tonight?\n")
         print("# ----------------------------------------------------------------------------#")
-        print("Following items are hidden in the 4 * 4 map,___________"
-              "there are ___ locations in total")
+        print("Following items are hidden in the 5 * 5 map"
+              "there are 23 locations in total")
         print("Your starting location will be  ROBERTS LIBRARY   ")
         p.menu_actions("look", w.world_map, w.adv_location)
         # ----------------------------------------------------------------------------
@@ -93,7 +100,7 @@ if __name__ == "__main__":
             print("You can choose to call [menu]")
             print("and these are the list of actions you can perform at this location: ")
             if location is not None:
-                for action in w.available_actions(p, w.map, location):
+                for action in w.available_actions(p):
                     actions.append(action)
                 print("   Available movements: " + " ,".join(actions))
                 for location_action in location.available_actions():
@@ -123,12 +130,13 @@ if __name__ == "__main__":
                     print("You can pick up the air on the floor, will you?")
 
             elif choice == "drop item":
-                lst = p.menu_actions("inventory", w.world_map, w.adv_location)
+                lst = p.menu_actions_2("inventory", w.world_map, w.adv_location)
+                p.menu_actions("inventory", w.world_map, w.adv_location)
                 if lst == "Your inventory is empty":
                     continue
                 else:
                     print("You have the above items")
-                    choice = input("\nDrop Which One?").lower()
+                    choice = input("\nDrop Which One?")
                     i = 0
                     for items in world_items:
                         if choice == items.name:
@@ -181,11 +189,11 @@ if __name__ == "__main__":
 
             elif choice == "trade":
                 curr_location = w.get_location(p.x, p.y).loc_number
-                if curr_location == 10 and not businessman_trading_puzzle.traded_or_not and p.inventory != []:
+                if curr_location == 17 and not businessman_trading_puzzle.traded_or_not and p.inventory != []:
                     print("Available items to trade: " + ", ".join(p.inventory))
                     item_to_trade = input("Which item would you like to trade? ")
-                    trade_successful = businessman_trading_puzzle.trade(p, item_to_trade)
-                    if not trade_successful:
+                    businessman_trading_puzzle.trade(p, item_to_trade)
+                    if not businessman_trading_puzzle.trade(p, item_to_trade):
                         break
                 else:
                     print("There is nothing for you to trade!")
@@ -220,3 +228,8 @@ if __name__ == "__main__":
     else:
         print("The world will be unsaved, quiting game now...")
         print("You can exit whenever you want")
+
+    # import python_ta
+    # python_ta.check_all(config={
+    #     'max-line-length': 120
+    # })
