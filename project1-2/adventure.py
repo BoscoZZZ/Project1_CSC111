@@ -35,7 +35,7 @@ if __name__ == "__main__":
     # starting moves
     # with (open("map.txt", "r") as map_file, open("locations.txt", "r") as locations_file,
     #       open("items.txt", "r") as items_file):
-    #     w = class_World.World(map_file, locations_file, items_file)
+    #     w = class_world.World(map_file, locations_file, items_file)
     #     p = class_player.Player(0, 0, 30)
     #     world_map = w.load_map(map_file)
     #     adv_location = w.load_location(locations_file)
