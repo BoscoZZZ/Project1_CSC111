@@ -184,8 +184,8 @@ if __name__ == "__main__":
                 if curr_location == 10 and not businessman_trading_puzzle.traded_or_not and p.inventory != []:
                     print("Available items to trade: " + ", ".join(p.inventory))
                     item_to_trade = input("Which item would you like to trade? ")
-                    businessman_trading_puzzle.trade(p, item_to_trade)
-                    if not businessman_trading_puzzle.trade(p, item_to_trade):
+                    trade_successful = businessman_trading_puzzle.trade(p, item_to_trade)
+                    if not trade_successful:
                         break
                 else:
                     print("There is nothing for you to trade!")
