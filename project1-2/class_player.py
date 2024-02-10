@@ -156,7 +156,7 @@ class Player:
         Allow players to drop items in their inventory anytime they want.
 
         """
-        self.inventory.remove(item)
+        self.inventory.remove(item.name)
         item.current_position = loc
         print(f"You successfully dropped {item.name} here!")
 
@@ -213,6 +213,8 @@ class Player:
             elif action == "score":
                 print(self.get_score())
                 return
+            elif action == "quit":
+                break
 
     def menu_actions_2(self, action: str, world_map: list[list[int]], adv_location: list[[class_location.Location]]):
         """
@@ -227,3 +229,5 @@ class Player:
                 return self.get_inventory()
             elif action == "score":
                 return self.get_score()
+            elif action == "quit":
+                break
