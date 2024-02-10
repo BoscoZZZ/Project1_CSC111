@@ -27,9 +27,7 @@ class Puzzle:
 
     Instance Attributes:
         - hint: A little bit of hint of the puzzle for players who are attempting to solve it
-
-    Representation Invariants:
-        -
+        - solved: the status showing whether this puzzle have been solved or not
 
     """
 
@@ -47,13 +45,13 @@ class CombineItem(Puzzle):
         - hint: A little bit of hint of the puzzle for players who are attempting to solve it
         - required_material: the required material for players to combine
         - combined_item: the combined item
+        - solved: the status showing whether this puzzle have been solved or not
 
-    Representation Invariants:
-        -
     """
 
     def __init__(self, hint: str, required_material: list[str], combined_item: str) -> None:
         """ Initialize the item combination part of the puzzle
+
         """
         super().__init__(hint)
         self.hint = hint
@@ -63,6 +61,7 @@ class CombineItem(Puzzle):
 
     def combine_item(self, player: class_player.Player, item1: str, item2: str):
         """ Verify if players are eligible for combining items
+
         """
         if (("Stone" in player.inventory and "Abrasive_tool" in player.inventory) and
                 (item1 == "stone" or item2 == "stone")
@@ -85,10 +84,11 @@ class OpenChest(Puzzle):
 
     Instance Attributes:
         - hint: A little bit of hint of the puzzle for players who are attempting to solve it
-        - special_inventory:
+        - combined_item: the combined item
+        - final_item: the item received after solving the puzzle
+        - chest_location: the location of the chest that's waiting to be unlocked
+        - solved: the status showing whether this puzzle have been solved or not
 
-    Representation Invariants:
-        -
     """
 
     def __init__(self, hint: str, combined_item: str, final_item: str, chest_location: int) -> None:
@@ -113,6 +113,7 @@ class OpenChest(Puzzle):
 
     def chest_hint(self):
         """ Provide a hint for how to open the chest
+
         """
         if not self.solved:
             print(self.hint)
@@ -123,11 +124,11 @@ class MissileLaunch(Puzzle):
     a place called super castle and get the things they needed to win the game.
 
     Instance Attributes:
-        - hint: A little bit of hint of the puzzle for players who are attempting to solve it
-        -
-
-    Representation Invariants:
-        -
+        - password: the password required to activate the missile launch pad
+        - launch_pad: an item that allows you to type password
+        - sealed_item: the item that is hidden in campus
+        - target_loc: the location where the item is hidden
+        - solved: the status showing whether this puzzle have been solved or not
 
     """
 
@@ -147,21 +148,12 @@ class MissileLaunch(Puzzle):
     def use_launch_pad(self, player: class_player.Player, player_input: int, world: class_World.World):
         """ Launch the missile if players discovered the launch as well as input the correct the password
         """
-        # for item in player.inventory:
-        #     if item.name == "launch_pad":
         if self.check_password(player_input):
             target_loc = world.locations[self.target_loc]
             world.destroy_location(target_loc)
             player.inventory.append(self.sealed_item)
             self.solved = True
         return self.solved
-
-    def missile_hint(self):
-        """
-        1
-        """
-        if not self.solved:
-            print(self.hint)
 
 
 class BusinessmanTrading(Puzzle):
@@ -170,10 +162,9 @@ class BusinessmanTrading(Puzzle):
     Instance Attributes:
         - hint: A little bit of hint of the puzzle for players who are attempting to solve it
         - exchange_item: item that players exchange with the businessman
+        - business_location: the location of the businessman
         - crucial_item: a list of special items that if players trade them will result in losing the game directly
-
-    Representation Invariants:
-        -
+        - trade_or_not: determine whether the player have traded with the businessman once or not
 
     """
 
