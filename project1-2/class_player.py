@@ -43,6 +43,15 @@ def helper_output(location: class_location.Location) -> str:
         return location.brief_desc
 
 
+def quit_game():
+    """
+    Game Over and quit game
+
+    """
+    print("Game Over")
+    exit()
+
+
 class Player:
     """
     A Player in the text adventure game.
@@ -57,18 +66,16 @@ class Player:
         - score: Player's score
 
     Representation Invariants:
-        - # TODO
+        - self.x >= 0
+        - self.y >= 0
+        - self.move_limit >= 0
+
     """
 
     def __init__(self, x: int, y: int, move_limit: int) -> None:
         """
         Initializes a new Player at position (x, y).
         """
-
-        # NOTES:
-        # This is a suggested starter class for Player.
-        # You may change these parameters and the data available for the Player object as you see fit.
-
         self.x = x
         self.y = y
         self.inventory = []
@@ -118,38 +125,12 @@ class Player:
               and direction.lower() != "north"):
             print("INVALID INPUT")
 
-        # x, y = self.x, self.y
-        # new_x, new_y = x, y
-        #
-        # if direction.lower() == "north":
-        #     new_x -= 1
-        # elif direction.lower() == "south":
-        #     new_x += 1
-        # elif direction.lower() == "east":
-        #     new_y += 1
-        # elif direction.lower() == "west":
-        #     new_y -= 1
-
-        # if 0 <= new_x < len(map_data) and 0 <= new_y < len(map_data[0]) and map_data[new_x][new_y] != -1:
-        #     self.x, self.y = new_x, new_y
-        #     return "Moved " + direction.lower()
-        # else:
-        #     return "You can't move in that direction."
-
     def player_look(self, map_data: list[list[int]], locations: list[class_location.Location], ) -> str:
         """
         This is return when the Look action is taken.
         It returns the long_description of the player's current location.
         """
         return locations[map_data[self.x][self.y]].long_desc
-
-    def quit_game(self):
-        """
-        Game Over and quit game
-
-        """
-        print("Game Over")
-        exit()
 
     def pick_up_item(self, item: class_item.Item):
         """
@@ -200,7 +181,7 @@ class Player:
         """
         self.current_move += 1
         if self.current_move >= self.move_limit:
-            self.quit_game()
+            quit_game()
 
     def score_increment(self, points: int):
         """
@@ -232,8 +213,6 @@ class Player:
             elif action == "score":
                 print(self.get_score())
                 return
-            # elif action == "quit":
-            #     print(self.quit_game())
 
     def menu_actions_2(self, action: str, world_map: list[list[int]], adv_location: list[[class_location.Location]]):
         """
@@ -248,5 +227,3 @@ class Player:
                 return self.get_inventory()
             elif action == "score":
                 return self.get_score()
-            # elif action == "quit":
-            #     print(self.quit_game())
