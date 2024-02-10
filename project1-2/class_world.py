@@ -18,186 +18,206 @@ please consult our Course Syllabus.
 
 This file is Copyright (c) 2024 CSC111 Teaching Team
 """
-from typing import Optional, TextIO
-import class_location
-import class_item
 import class_player
+import class_world
 
 
-class World:
-    """A text adventure game world storing all location, item and map data.
+class Puzzle:
+    """ A puzzle in our text adventure game world.
 
     Instance Attributes:
-        - map: a nested list representation of this world's map
-        - location_data: a nested list of location object of the world
-        - items_data: a nested list of item object of the world
-        - locations: initial empty world if not text read
-        - items: initial empty items if not item read
+        - hint: A little bit of hint of the puzzle for players who are attempting to solve it
+        - solved: the status showing whether this puzzle have been solved or not
 
     """
 
-    def __init__(self, map_data: TextIO, location_data: TextIO, items_data: TextIO) -> None:
+    def __init__(self, hint: str) -> None:
+        """ Initialize a new puzzle
         """
-        Initialize a new World for a text adventure game, based on the data in the given open files.
+        self.hint = hint
+        self.solved = False
 
-        - location_data: name of text file containing location data (format left up to you)
-        - items_data: name of text file containing item data (format left up to you)
+
+class CombineItem(Puzzle):
+    """ Part of the puzzle that require players to combine items that will be needed.
+
+    Instance Attributes:
+        - hint: A little bit of hint of the puzzle for players who are attempting to solve it
+        - required_material: the required material for players to combine
+        - combined_item: the combined item
+        - solved: the status showing whether this puzzle have been solved or not
+
+    """
+
+    def __init__(self, hint: str, required_material: list[str], combined_item: str) -> None:
+        """ Initialize the item combination part of the puzzle
+
         """
-        self.world_map = self.load_map(open("map.txt"))
-        self.adv_location = self.load_location(open("locations.txt"))
-        self.map = self.load_map(map_data)
-        self.location_data = self.load_location(location_data)
-        self.items_data = self.load_items(items_data)
-        self.locations = []
-        self.items = []
+        super().__init__(hint)
+        self.hint = hint
+        self.required_material = required_material
+        self.combined_item = combined_item
+        self.solved = False
 
-    # NOTE: The method below is REQUIRED. Complete it exactly as specified.
-    def load_map(self, map_data: TextIO) -> list[list[int]]:
+    def combine_item(self, player: class_player.Player, item1: str, item2: str):
+        """ Verify if players are eligible for combining items
+
         """
-        Store map from open file map_data as the map attribute of this object, as a nested list of integers like so:
+        if (("Stone" in player.inventory and "Abrasive_tool" in player.inventory) and
+                (item1 == "stone" or item2 == "stone")
+                and (item1 == "abrasive_tool" or item2 == "abrasive_tool")):
+            for item in self.required_material:
+                player.inventory.remove(item)
+            player.inventory.append(self.combined_item)
+            self.solved = True
+        return self.solved
 
-        If map_data is a file containing the following text:
-            1 2 5
-            3 -1 4
-        then load_map should assign this World object's map to be [[1, 2, 5], [3, -1, 4]].
-
-        Return this list representation of the map.
+    def hint_combine(self):
+        """ Provide a hint for combining if player cannot solve
         """
-        self.map = []
-        for line in map_data:
-            self.map.append([int(num) for num in line.split()])
+        if not self.solved:
+            print(self.hint)
 
-        return self.map
 
-    def load_location(self, locations_data: TextIO) -> list[Optional[class_location.Location]]:
+class OpenChest(Puzzle):
+    """ Part of the puzzle that require players to use to the combined item to open the locked chest.
+
+    Instance Attributes:
+        - hint: A little bit of hint of the puzzle for players who are attempting to solve it
+        - combined_item: the combined item
+        - final_item: the item received after solving the puzzle
+        - chest_location: the location of the chest that's waiting to be unlocked
+        - solved: the status showing whether this puzzle have been solved or not
+
+    """
+
+    def __init__(self, hint: str, combined_item: str, final_item: str, chest_location: int) -> None:
+        """ Initialize the use combined item to open the chest part of the puzzle
         """
-        Store location from open file locations data as the location attribute of this object
+        super().__init__(hint)
+        self.hint = hint
+        self.combined_item = combined_item
+        self.final_item = final_item
+        self.chest_location = chest_location
+        self.solved = False
 
-        If locations_data is a file containing the following text:
-
-        LOCATION Robarts Library
-        3
-        You are outside the Robarts library.
-        You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
-        END
-
-        load_location should assign this World object's lcoation to store in the class location in the following format
-        self.name = 'LOCATION Robarts Library'
-        self.loc_number = 3
-        self.brief_desc = 'You are outside the Robarts library.'
-        self.long_desc = 'You are outside the Robarts library ...'
-        it will start to store next location when END is found
-
-        Return this list representation of the location.
+    def open_chest(self, player: class_player.Player, world: class_world.World):
         """
-        item_instance = class_item.Item("", -2, -2, -2, -2)
-        self.locations = []
-        lines = locations_data.readlines()
-        i = 0
-        while i < len(lines):
-            if lines[i].startswith("LOCATION"):
-                name = lines[i].strip()
-                loc_number = int(lines[i + 1])
-                brief_desc = lines[i + 2].strip()
-                long_desc = ""
-                j = i + 3
-                while j < len(lines) and not lines[j].startswith("END"):
-                    long_desc += lines[j]
-                    j += 1
-                location = class_location.Location(name, loc_number, item_instance, brief_desc,
-                                                   long_desc)  # Assuming None for loc_item
-                self.locations.append(location)
-                i = j  # Move to the line after "END"
-            else:
-                i += 1
-        return self.locations
-
-    def load_items(self, items_data: TextIO) -> list[Optional[class_item.Item]]:
+        1
         """
-        Store items from open file items_data as the item attribute of this object,
-        as a nested list of integers like so:
+        curr = world.get_location(player.x, player.y)
+        if curr.loc_number == self.chest_location and self.combined_item in player.inventory:
+            player.inventory.append(self.final_item)
+            self.solved = True
+        return self.solved
 
-        If item_data is a file containing the following text:
-            1 10 5 Cheat Sheet
-        then item under self where it can be names since it is store in an item
+    def chest_hint(self):
+        """ Provide a hint for how to open the chest
 
-        Return this list of items
         """
-        self.items = []
-        for line in items_data:
-            fields = line.split()
-            if fields[0] == "hint":
-                # Assuming the PuzzleItem class constructor matches these parameters
-                item = class_item.PuzzleItem(fields[5], int(fields[2]), int(fields[3]), int(fields[4]), int(fields[2]),
-                                             fields[1], fields[6])
-            else:
-                item = class_item.Item(fields[3], int(fields[0]), int(fields[1]), int(fields[2]), int(fields[0]))
-            self.items.append(item)
-        return self.items
+        if not self.solved:
+            print(self.hint)
 
-    def get_location(self, x: int, y: int) -> Optional[class_location.Location]:
-        """Return Location object associated with the coordinates (x, y) in the world map, if a valid location exists at
-         that position. Otherwise, return None. (Remember, locations represented by the number -1 on the map should
-         return None.)
+
+class MissileLaunch(Puzzle):
+    """ Another puzzle that requires players to use the missile launch pad and password to destroy
+    a place called super castle and get the things they needed to win the game.
+
+    Instance Attributes:
+        - password: the password required to activate the missile launch pad
+        - launch_pad: an item that allows you to type password
+        - sealed_item: the item that is hidden in campus
+        - target_loc: the location where the item is hidden
+        - solved: the status showing whether this puzzle have been solved or not
+
+    """
+
+    def __init__(self, hint: str, password: int, launch_pad: str, sealed_item: str, target_loc: int):
+        super().__init__(hint)
+        self.password = password
+        self.launch_pad = launch_pad
+        self.sealed_item = sealed_item
+        self.target_loc = target_loc
+        self.solved = False
+
+    def check_password(self, player_input: int):
+        """ Check if players input the correct password
         """
-        if x < 0 or y < 0 or x >= len(self.map) or y >= len(self.map[0]):
-            return None
-        elif self.map[x][y] == -1:
-            return None
+        return player_input == self.password
+
+    def use_launch_pad(self, player: class_player.Player, player_input: int, world: class_world.World):
+        """ Launch the missile if players discovered the launch as well as input the correct the password
+        """
+        if self.check_password(player_input):
+            target_loc = world.locations[self.target_loc]
+            world.destroy_location(target_loc)
+            player.inventory.append(self.sealed_item)
+            self.solved = True
+        return self.solved
+
+
+class BusinessmanTrading(Puzzle):
+    """ Part of the puzzle that players need to trade an item with a businessman to get the item they need
+
+    Instance Attributes:
+        - hint: A little bit of hint of the puzzle for players who are attempting to solve it
+        - exchange_item: item that players exchange with the businessman
+        - business_location: the location of the businessman
+        - crucial_item: a list of special items that if players trade them will result in losing the game directly
+        - trade_or_not: determine whether the player have traded with the businessman once or not
+
+    """
+
+    def __init__(self, hint: str, exchange_item: str, crucial_item: list[str], business_location: int):
+        super().__init__(hint)
+        self.exchange_item = exchange_item
+        self.crucial_item = crucial_item
+        self.business_location = business_location
+        self.traded_or_not = False
+
+    def trade(self, player: class_player.Player, item_to_trade):
+        """ Notice that if you give the businessman something you need in order to win the game, you lose the game
+        directly! So be careful with what you choose to trade, the businessman is going to give you something you need!
+        Notice that you can only trade with him once, once you trade with him successfully, and you go back to the same
+        location, you won't be able to trade with him again! However, if you didn't trade with him upon first visit, you
+        can still trade with him later.
+
+        """
+        if self.traded_or_not:
+            print("You already trade with me comrade! I have nothing left to give you.")
+        if item_to_trade in self.crucial_item:
+            print("Oh, you trade this precious thing with me! You won't be able to attend your test! HAHA!")
+            print("You lose the game haha!")
+            player.victory = False
         else:
-            location_index = self.map[x][y]
-            if 0 <= location_index < len(self.locations):
-                return self.locations[location_index]
-            else:
-                return None
+            print("Good stuff! However, you are still teenager so I won't actually take this thing from you. "
+                  "I will give you your lucky pen, just happened to find it somewhere in the campus.")
+            player.inventory.append(self.exchange_item)
+            self.traded_or_not = True
+        return self.traded_or_not
 
-    def first_visit_or_not(self, x: int, y: int):
-        """
-        Determine whether the location is visited or not.
-        This is a helper function for "look" action
-        """
-        location = self.get_location(x, y)
-        if location is not None:
-            if location.visited:
-                return location.get_brief_description()
-            else:
-                location.visited = True
-                return location.get_brief_description()
-        else:
-            return "Invalid move"
 
-    def available_actions(self, player: class_player.Player):
-        """
-        Return the available actions in this location.
-        The actions should depend on the items available in the location
-        and the x,y position of this location on the world map.
-        """
-        x, y = player.x, player.y
-        actions = []
+def available_action(player: class_player.Player, world: class_world.World, business: BusinessmanTrading) -> list[str]:
+    """
+    Return a list of special available action
+    """
+    actions = []
+    if all(item in player.inventory for item in ['Stone', 'Abrasive_tool']):
+        actions.append("combine")
 
-        # Check if moving North is possible
-        if x > 0 and self.map[x - 1][y] != -1:
-            actions.append("North")
-        # Check if moving South is possible
-        if x < len(self.map) - 1 and self.map[x + 1][y] != -1:
-            actions.append("South")
-        # Check if moving East is possible
-        if y < len(self.map[0]) - 1 and self.map[x][y + 1] != -1:
-            actions.append("East")
-        # Check if moving West is possible
-        if y > 0 and self.map[x][y - 1] != -1:
-            actions.append("West")
-        actions.append("drop item")
+    curr = world.get_location(player.x, player.y)
 
-        return actions
+    if all(item in player.inventory for item in ['Stone_Key']) and curr.loc_number == 19:
+        actions.append("open_chest")
 
-    def destroy_location(self, location_name: class_location.Location):
-        """
-        Once player successfully input the correct password for the launch pad, the corresponding location
-        will be destroyed
-        """
-        if location_name in self.locations:
-            location_name.is_destroyed = True
-            location_name.brief_desc = "The location has been destroyed by a missile."
-            location_name.long_desc = "This used to be a super castle. The location has been destroyed by a missile."
-            print("Super Castle has been destroyed.")
+    for item in player.get_inventory():
+        if item == "launch_pad":
+            actions.append("type_password")
+
+    if business.traded_or_not is False and curr.loc_number == 17:
+        actions.append("trade")
+
+    if not (actions == []):
+        print(actions)
+
+    return actions
