@@ -6,17 +6,18 @@ END
 
 LOCATION 1
 1
-You are on the first floor of the Robarts Library. There is an empty study room to the South, an exit from the library to the East.
-You are on the first floor of the Robarts Library. It's usually crowded at this time of the day, but today it's eerily quiet.
-Only a few students are studying inside one of the study rooms. You better not disturb them. A librarian stands near the
-service desk, looking bored and sleepy. There is an empty study room to the South, an exit from the library to the East.
+You are on the first floor of the Robarts Library. There is an empty study room to the South, an exit to the East.
+You are on the first floor of the Robarts Library. It's usually crowded at this time of the day, but today it's eerily
+quiet. Only a few students are studying inside one of the study rooms. You better not disturb them. A librarian stands
+near the service desk, looking bored and sleepy. There is an empty study room to the South, an exit from the library to
+the East.
 END
 
 LOCATION 2
 2
 This study room is completely empty.
 You are in an empty study room. And by empty, we mean, absolutely empty. All the tables and chairs have been taken out,
-the whiteboards taken off the wall, not even the carpeting is left. Are they planning to do something else with this space?
+the whiteboards taken off the wall, not even the carpeting is left. Are they planning to do something with this space?
 END
 
 LOCATION 3
@@ -28,66 +29,86 @@ END
 LOCATION 4
 4
 You are at the magic room.
-You are at the magic room that you put item here will appears on your table during the exam.
+You are at the magic room that some of the items can be droped here. There are many magic items on this campus.
 END
 
 LOCATION 5
 5
-You are outside the Robarts library.
-You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+Wow, you teleported to the Innis College! South: New College, East: AC, West: Robarts Library.
+Innis collge, the home of many students. A vibrant and inclusive community ready to welcome students, staff, and
+faculty. Wanna stay at the innis Garden for a rest? Move south you will be teleported to 6, move east will be 9,
+and move west will be the Robarts Library.
 END
 
 LOCATION 6
-6
-You are outside the Robarts library.
-You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+Within close proximity to other university buildings, libraries, and cultural institutions, you arrived New College.
+Founded in 1962, New college is a residential college, fostering a tight-knit community and offering various programs
+and activities within the residential setting. Why not try the food in the dinnign hall and study at the 2nd floor
+common room? Move north you will be teleported to Innis College, move east will be AC, and move west will be the study
+room. You see a fascinating pad in the common room that might be useful.
 END
 
 LOCATION 7
 7
-You are outside the Robarts library.
-You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+You arrived Sidney Smith, one of the prominent buildings. Theres construction currently nearby between New and Sidney.
+Sidney Smith Hall houses various academic departments, classrooms, lecture halls, administrative offices, and student
+services. Probably there are some items in those classrooms that are useful? Move south you will be teleported to Knox
+college, move east will be the food trucks, and move west will be the magic room.
 END
 
 LOCATION 8
 8
-businessman
-businessman
+You arrive the Knox College. Take some time to study in the Knox library?
+A theological college affiliated with the Presbyterian Church in Canada. It is one of the member colleges within the
+Toronto School of Theology, which is federated with the University of Toronto's St. George campus. Move north you will
+be teleported to Sidney Smith, and move west will be the John W. Graham Library.
 END
 
 LOCATION 9
 9
-Locked Chest!
+Innis Garden. A charming outdoor space.
+Innis Garden. A charming outdoor space. It serves as a serene retreat for students, faculty, and visitors, offering a
+tranquil environment amidst the bustling campus life. Move south you will be teleported to AC, move east will be
+Innis college, and move west will be the John W. Graham Library.
 END
 
 LOCATION 10
 10
-businessman
-businessman
+Atheletic Centre, a hub for fitness, recreation, and sports.
+Atheletic Centre, a hub for fitness, recreation, and sports. Probably special items in the swimming pool? or not...
+Move south you will be teleported to Innis Garden, move east will be Biohazard Laboratory, and move west will be the
+New college.
 END
 
 LOCATION 11
 11
-You are outside the Robarts library.
-You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+Sidney Smith Dinning Hall. It is Thursday Noon right now, there's many students inside.
+Sidney Smith Dinning Hall. It is Thursday Noon right now, there's many students inside. You may find nothing else here
+but food. Move south you will be teleported to food trucks, move east will be "Garden of Eden", and move north
+will be the AC.
 END
 
 LOCATION 12
 12
-You are outside the Robarts library.
-You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+You found there are many food trucks here!
+You found there are many food trucks here! It is Thursday Noon right now, there's many students lining up. Move south
+you will be teleported to John W. Graham Library, move east will be 17, move north will be the Sidney Smith Dinning
+Hall, and move west will be Sidney Smith.
 END
 
 LOCATION 13
 13
-You are outside the Robarts library.
-You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+You arrive the John W. Graham Library.
+You arrive the John W. Graham Library. The John W. Graham Library is situated within Trinity College. The library
+provides access to numerous online databases, e-journals, and e-books, allowing users to access scholarly materials
+remotely. Move east will be 18, move north will be the food trucks.
 END
 
 LOCATION 14
 14
-You are outside the Robarts library.
-You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
+You found a secret room close to the Innis Garden!
+You found a secret room close to the Innis Garden! Look around and see some interesting items. Move south will be 15,
+move west will be the Innis Garden, and east will be 19
 END
 
 LOCATION 15
