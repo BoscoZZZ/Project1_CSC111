@@ -22,13 +22,13 @@ import class_item
 import class_location
 
 
-# def move_tracker() -> None:
-#     """
-#     This is a helper function that help count the number of moves
-#     """
-#     command = input("Which direction do you want to go: ")
-#     if command.lower() in ["north", "south", "west", "east"]:
-#         Player.move_increment()
+def move_tracker():
+    """
+    This is a helper function that help count the number of moves
+    """
+    command = input("Which direction do you want to go: ")
+    if command.lower() in ["north", "south", "west", "east"]:
+        Player.move_increment()
 
 
 def helper_output(location: class_location.Location) -> str:
@@ -41,6 +41,15 @@ def helper_output(location: class_location.Location) -> str:
     else:
         location.visited = True
         return location.brief_desc
+
+
+def quit_game():
+    """
+    Game Over and quit game
+
+    """
+    print("Game Over")
+    exit()
 
 
 class Player:
@@ -62,13 +71,6 @@ class Player:
         - self.move_limit >= 0
 
     """
-    x: int
-    y: int
-    inventory: list
-    victory: bool
-    move_limit: int
-    current_move: int
-    score: int
 
     def __init__(self, x: int, y: int, move_limit: int) -> None:
         """
@@ -82,7 +84,7 @@ class Player:
         self.current_move = 0
         self.score = 0
 
-    def go_direction(self, direction: str, map_data: list[list[int]], locations: list[class_location.Location]) -> None:
+    def go_direction(self, direction: str, map_data: list[list[int]], locations: list[class_location.Location],):
         """
         The action Go.
         If Go[direction] is called, go_direction(direction, map_data, locations) will be excuted
@@ -130,7 +132,7 @@ class Player:
         """
         return locations[map_data[self.x][self.y]].long_desc
 
-    def pick_up_item(self, item: class_item.Item) -> None:
+    def pick_up_item(self, item: class_item.Item):
         """
         Allow players to pick up items if they are at the item's location.
 
@@ -149,7 +151,7 @@ class Player:
             item.pick_up_state = False
             print(f"You picked up {item.name} again. (What you dropped before)")
 
-    def drop_item(self, item: class_item.Item, loc: int) -> None:
+    def drop_item(self, item: class_item.Item, loc: int):
         """
         Allow players to drop items in their inventory anytime they want.
 
@@ -160,7 +162,7 @@ class Player:
 
         # print(f"{item.name} is not in your inventory.")
 
-    def get_inventory(self) -> list or str:
+    def get_inventory(self):
         """
         Allow players to get items
 
@@ -172,31 +174,30 @@ class Player:
 
         return inventory_list
 
-    # def move_increment(self) -> None:
-    #     """
-    #     A helper function that count the number of moves, if moves >= move limit
-    #     game ended immediately
-    #     """
-    #     self.current_move += 1
-    #     if self.current_move >= self.move_limit:
-    #         quit_game()
+    def move_increment(self):
+        """
+        A helper function that count the number of moves, if moves >= move limit
+        game ended immediately
+        """
+        self.current_move += 1
+        if self.current_move >= self.move_limit:
+            quit_game()
 
-    def score_increment(self, points: int) -> None:
+    def score_increment(self, points: int):
         """
         Update the player's score by a given amount.
 
         """
         self.score += points
 
-    def get_score(self) -> str:
+    def get_score(self):
         """
         Showing player's current score
 
         """
         return f"Your current score is {self.score}"
 
-    def menu_actions(self, action: str, world_map: list[list[int]], adv_location: list[[class_location.Location]]) \
-            -> None:
+    def menu_actions(self, action: str, world_map: list[list[int]], adv_location: list[[class_location.Location]]):
         """
         Execute menu action as given.
 
@@ -205,10 +206,15 @@ class Player:
         while action in menu:
             if action == "look":
                 print(self.player_look(world_map, adv_location))
+                return
             elif action == "inventory":
                 print(self.get_inventory())
+                return
             elif action == "score":
                 print(self.get_score())
+                return
+            elif action == "quit":
+                break
 
     def menu_actions_2(self, action: str, world_map: list[list[int]], adv_location: list[[class_location.Location]]):
         """
@@ -223,9 +229,5 @@ class Player:
                 return self.get_inventory()
             elif action == "score":
                 return self.get_score()
-
-    if __name__ == '__main__':
-        import python_ta
-        python_ta.check_all(config={
-            'max-line-length': 120
-        })
+            elif action == "quit":
+                break
