@@ -51,7 +51,7 @@ if __name__ == "__main__":
                                                        password=1890169, sealed_item="Cheat_Sheet",
                                                        target_loc=13)
     businessman_trading_puzzle = class_puzzle.BusinessmanTrading(hint="Trade wisely, some items are "
-                                                                      "crucial for your success.", business_location=10,
+                                                                      "crucial for your success.", business_location=17,
                                                                  crucial_item=["Cheat_Sheet", "T-Card", "Stone",
                                                                                "Abrasive_tool", "Stone_Key",
                                                                                "launch_pad"], exchange_item="Lucky_Pen")
