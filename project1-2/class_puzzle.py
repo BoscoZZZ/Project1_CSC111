@@ -210,10 +210,11 @@ class BusinessmanTrading(Puzzle):
             print("You lose the game haha!")
             player.victory = False
         else:
-            print("Good stuff! I will give you your lucky pen, just happened to find it somewhere in the campus.")
-            player.inventory.remove(item_to_trade)
+            print(""Good stuff! However, you are still teenager so I won't actually take this thing from you. "
+                  "I will give you your lucky pen, just happened to find it somewhere in the campus."")
             player.inventory.append(self.exchange_item)
             self.traded_or_not = True
+        return self.traded_or_not
 
 
 def available_action(player: class_player.Player, world: class_world.World, business: BusinessmanTrading) -> list[str]:
