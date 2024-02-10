@@ -27,7 +27,7 @@ import class_puzzle
 
 # Note: You may modify the code below as needed; the following starter template are just suggestions
 if __name__ == "__main__":
-    win_need_score = 20
+    win_need_score = 30
     # the score needs to win
     have_move = 30
     # the moves you have
